@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import CVIcon from "@/components/layout/CVIcon";
 
 const footerLinks = [
   { key: "journey", href: "/journey" },
@@ -57,7 +58,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="flex h-9 w-9 items-center justify-center rounded-md bg-white text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
+                className="group relative flex h-9 w-9 items-center justify-center rounded-md bg-white text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
               >
                 <img
                   src="/GitHub_light.svg"
@@ -69,43 +70,51 @@ export default function Footer() {
                   alt="GitHub logo"
                   className="hidden h-5 w-5 dark:block"
                 />
+                <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 rounded-md bg-neutral-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 dark:bg-white dark:text-neutral-900">
+                  GitHub
+                </span>
               </a>
               <a
                 href="https://www.linkedin.com/in/josueduardogarcia/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="flex h-9 w-9 items-center justify-center rounded-md bg-white text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
+                className="group relative flex h-9 w-9 items-center justify-center rounded-md bg-white text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
               >
                 <img
                   src="/linkedin.svg"
                   alt="LinkedIn logo"
                   className="h-5 w-5"
                 />
+                <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 rounded-md bg-neutral-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 dark:bg-white dark:text-neutral-900">
+                  LinkedIn
+                </span>
               </a>
               <a
                 href="mailto:josueduardo.dev@gmail.com"
                 aria-label="Email"
-                className="flex h-9 w-9 items-center justify-center rounded-md text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
+                className="group relative flex h-9 w-9 items-center justify-center rounded-md text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
               >
                 <img
                   src="/gmail.svg"
                   alt="Gmail logo"
                   className="h-5 w-5"
                 />
+                <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 rounded-md bg-neutral-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 dark:bg-white dark:text-neutral-900">
+                  Email
+                </span>
               </a>
               <a
                 href="https://drive.google.com/file/d/1Qik9JP5Z5bBuh-MAgDH5c7aGFzWgDy7Q/preview"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="CV"
-                className="flex h-9 w-9 items-center justify-center rounded-md bg-white text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
+                className="group relative flex h-9 w-9 items-center justify-center rounded-md bg-white text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
               >
-                <img
-                  src="/cv.svg"
-                  alt="CV logo"
-                  className="h-5 w-5"
-                />
+                <CVIcon />
+                <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 rounded-md bg-neutral-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 dark:bg-white dark:text-neutral-900">
+                  CV
+                </span>
               </a>
             </div>
           </div>
