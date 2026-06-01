@@ -1,0 +1,17 @@
+{
+  "Navigation": {
+    "journey": "Journey",
+    "projects": "Projects",
+    "blog": "Blog",
+    "curriculum": "Curriculum",
+    "keyWeek": "Key Week",
+    "achievements": "Achievements",
+    "contact": "Contact"
+  },
+  "Footer": {
+    "tagline": "Building systems. Documenting growth. Sharing the journey.",
+    "quickLinks": "Quick Links",
+    "connect": "Connect",
+    "copyright": "© 2026 Josué García. All rights reserved."
+  }
+}
