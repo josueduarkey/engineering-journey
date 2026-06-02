@@ -1,8 +1,29 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import createMDX from "@next/mdx";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
-const nextConfig: NextConfig = {};
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: ["remark-gfm", "remark-frontmatter"],
+    rehypePlugins: [
+      [
+        "rehype-pretty-code",
+        {
+          theme: { dark: "one-dark-pro", light: "github-light" },
+          keepBackground: false,
+        },
+      ],
+    ],
+  },
+});
 
-export default withNextIntl(nextConfig);
+const nextConfig: NextConfig = {
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+  experimental: {
+    viewTransition: true,
+  },
+};
+
+export default withNextIntl(withMDX(nextConfig));

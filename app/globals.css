@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* Class-based dark mode (next-themes sets .dark on <html>) */
 @custom-variant dark (&:is(.dark, .dark *));
@@ -156,6 +157,92 @@ body {
 .nav-sweep-link:hover .nav-sweep-icon,
 .nav-sweep-link:focus-visible .nav-sweep-icon {
   color: #006dff;
+}
+
+/* ─── View Transition API (React <ViewTransition> + experimental.viewTransition)
+   share="morph" assigns class .morph to the transition group, which we target
+   below. Root handles everything that is NOT a named shared element.
+   ────────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  /* Blog cover morph: slow spring so the expansion is clearly visible */
+  ::view-transition-group(.morph) {
+    animation-duration: 550ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Crossfade of image content within the morphing element */
+  ::view-transition-old(.morph),
+  ::view-transition-new(.morph) {
+    animation-duration: 350ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Page content out: scale down + fade */
+  ::view-transition-old(root) {
+    animation: 250ms ease-in vt-page-out both;
+  }
+
+  /* Page content in: slide up + fade */
+  ::view-transition-new(root) {
+    animation: 400ms cubic-bezier(0.22, 1, 0.36, 1) vt-page-in both;
+  }
+}
+
+/* Disable all motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
+@keyframes vt-page-out {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+@keyframes vt-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+/* ─── rehype-pretty-code dual theme ──────────────────────────────────────────
+   Light theme active by default; .dark switches to the dark palette.
+   ────────────────────────────────────────────────────────────────────────── */
+code[data-theme*=" "],
+code[data-theme*=" "] span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+.dark code[data-theme*=" "],
+.dark code[data-theme*=" "] span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+
+/* Pre block wrapper */
+[data-rehype-pretty-code-figure] pre {
+  overflow-x: auto;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* Inline code (no data-theme = not a code block) */
+:not(pre) > code:not([data-theme]) {
+  background-color: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  font-size: 0.85em;
 }
 
 @media (prefers-reduced-motion: reduce) {

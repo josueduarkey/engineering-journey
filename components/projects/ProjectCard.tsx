@@ -1,15 +1,11 @@
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import {
-  getLocaleValue,
-  powerSkillLabels,
-  type Locale,
-  type Project,
-} from "@/lib/content";
+import { getLocaleValue, powerSkillLabels, type Locale } from "@/lib/content";
+import type { ProjectMeta } from "@/lib/projects";
 import TagList from "@/components/shared/TagList";
 
 type ProjectCardProps = {
-  project: Project;
+  project: ProjectMeta;
   locale: Locale;
 };
 

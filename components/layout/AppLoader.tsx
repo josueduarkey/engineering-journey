@@ -7,7 +7,12 @@ export default function AppLoader() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (sessionStorage.getItem("app_loaded")) {
+      setIsLoading(false);
+      return;
+    }
     const timeout = window.setTimeout(() => {
+      sessionStorage.setItem("app_loaded", "1");
       setIsLoading(false);
     }, 2000);
 

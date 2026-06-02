@@ -6,28 +6,10 @@ export type PowerSkill =
   | "communication"
   | "collaboration";
 
-export type Project = {
-  slug: string;
-  title: Record<Locale, string>;
-  summary: Record<Locale, string>;
-  date: string;
-  status: Record<Locale, string>;
-  stage: Record<Locale, string>;
-  featured: boolean;
-  tags: string[];
-  technologies: string[];
-  powerSkills: PowerSkill[];
-  problem: Record<Locale, string>;
-  process: Record<Locale, string[]>;
-  outcomes: Record<Locale, string[]>;
-  lessons: Record<Locale, string[]>;
-  repository?: string;
-  demo?: string;
-};
-
 export type JourneyMilestone = {
-  year: string;
-  institution : string;
+  year: Record<Locale, string>;
+  institution: Record<Locale, string>;
+  link?: string;
   title: Record<Locale, string>;
   description: Record<Locale, string>;
   skills: string[];
@@ -36,396 +18,180 @@ export type JourneyMilestone = {
     alt: Record<Locale, string>;
   }>;
   relatedProjects?: string[];
+  projectsHref?: string;
+};
+
+export type ProjectGroup = {
+  anchor: string;
+  title: Record<Locale, string>;
+  description: Record<Locale, string>;
+  slugs: string[];
 };
 
 export const powerSkillLabels: Record<PowerSkill, Record<Locale, string>> = {
-  "critical-thinking": {
-    es: "Pensamiento critico",
-    en: "Critical Thinking",
-  },
-  "creative-thinking": {
-    es: "Pensamiento creativo",
-    en: "Creative Thinking",
-  },
-  communication: {
-    es: "Comunicacion efectiva",
-    en: "Effective Communication",
-  },
-  collaboration: {
-    es: "Colaboracion efectiva",
-    en: "Effective Collaboration",
-  },
+  "critical-thinking": { es: "Pensamiento crítico", en: "Critical Thinking" },
+  "creative-thinking": { es: "Pensamiento creativo", en: "Creative Thinking" },
+  communication: { es: "Comunicación efectiva", en: "Effective Communication" },
+  collaboration: { es: "Colaboración efectiva", en: "Effective Collaboration" },
 };
 
-export const projects: Project[] = [
+// ─── Project groups (for the /projects page sections) ─────────────────────────
+export const projectGroups: ProjectGroup[] = [
   {
-    slug: "engineering-journey-platform",
-    title: {
-      es: "Engineering Journey Platform",
-      en: "Engineering Journey Platform",
+    anchor: "keyinstitute",
+    title: { es: "Key Institute", en: "Key Institute" },
+    description: {
+      es: "Proyectos desarrollados durante la carrera en Ingeniería en Ciencias de la Computación Integradas.",
+      en: "Projects developed during the Engineering in Integrated Computer Science degree.",
     },
-    summary: {
-      es: "Sistema publico para documentar proyectos, aprendizajes, logros y crecimiento tecnico durante la carrera.",
-      en: "A public system for documenting projects, learning, achievements, and technical growth across the degree.",
-    },
-    date: "2026-05-31",
-    status: {
-      es: "En desarrollo",
-      en: "In progress",
-    },
-    stage: {
-      es: "Phase 2",
-      en: "Phase 2",
-    },
-    featured: true,
-    tags: ["software-engineering", "documentation", "full-stack"],
-    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "next-intl"],
-    powerSkills: ["critical-thinking", "communication"],
-    problem: {
-      es: "Un portafolio tradicional no captura el proceso de crecimiento de varios anios, ni conecta proyectos con reflexiones, competencias y evidencia.",
-      en: "A traditional portfolio does not capture a multi-year growth process or connect projects with reflections, competencies, and evidence.",
-    },
-    process: {
-      es: [
-        "Definir una arquitectura simple basada en rutas localizadas.",
-        "Crear un sistema visual limpio, con tema claro y oscuro desde el MVP.",
-        "Separar contenido inicial en estructuras tipadas para poder migrarlo a MDX despues.",
-      ],
-      en: [
-        "Define a simple architecture based on localized routes.",
-        "Create a clean visual system with light and dark theme support from the MVP.",
-        "Keep initial content in typed structures so it can move into MDX later.",
-      ],
-    },
-    outcomes: {
-      es: [
-        "Base bilingue para Home, Journey y Projects.",
-        "Navegacion global, footer, tema e idioma funcionando.",
-        "Primer caso de estudio para documentar el propio sistema.",
-      ],
-      en: [
-        "Bilingual foundation for Home, Journey, and Projects.",
-        "Working global navigation, footer, theme, and language controls.",
-        "First case study documenting the platform itself.",
-      ],
-    },
-    lessons: {
-      es: [
-        "La documentacion debe ser parte del producto, no una tarea posterior.",
-        "Una estructura simple es mas facil de mantener durante varios anios.",
-      ],
-      en: [
-        "Documentation should be part of the product, not an afterthought.",
-        "A simple structure is easier to maintain across several years.",
-      ],
-    },
+    slugs: ["engineering-journey-platform", "key-institute-pbl-archive", "technical-growth-map"],
   },
   {
-    slug: "key-institute-pbl-archive",
-    title: {
-      es: "Archivo PBL de Key Institute",
-      en: "Key Institute PBL Archive",
+    anchor: "udb",
+    title: { es: "Universidad Don Bosco", en: "Universidad Don Bosco" },
+    description: {
+      es: "Proyectos del Técnico en Ingeniería en Computación.",
+      en: "Projects from the Technical Degree in Computer Engineering.",
     },
-    summary: {
-      es: "Concepto de archivo para preservar experiencias de aprendizaje basado en proyectos, Key Weeks y presentaciones.",
-      en: "Archive concept for preserving project-based learning experiences, Key Weeks, and presentations.",
-    },
-    date: "2026-05-20",
-    status: {
-      es: "Concepto",
-      en: "Concept",
-    },
-    stage: {
-      es: "Planeacion",
-      en: "Planning",
-    },
-    featured: true,
-    tags: ["key-week", "research", "communication"],
-    technologies: ["Content Strategy", "Information Architecture"],
-    powerSkills: ["creative-thinking", "collaboration", "communication"],
-    problem: {
-      es: "Las experiencias intensivas de aprendizaje pierden contexto si solo quedan como fotos o publicaciones aisladas.",
-      en: "Intensive learning experiences lose context when they only remain as photos or isolated posts.",
-    },
-    process: {
-      es: [
-        "Identificar que informacion debe conservarse de cada experiencia.",
-        "Relacionar eventos con proyectos, articulos y logros.",
-        "Definir una estructura que pueda crecer sin depender de una base de datos.",
-      ],
-      en: [
-        "Identify which information should be preserved for each experience.",
-        "Connect events with projects, articles, and achievements.",
-        "Define a structure that can grow without depending on a database.",
-      ],
-    },
-    outcomes: {
-      es: [
-        "Modelo inicial de contenido para futuras entradas de Key Week.",
-        "Primeras relaciones entre timeline, proyectos y reflexiones.",
-      ],
-      en: [
-        "Initial content model for future Key Week entries.",
-        "Early relationships between timeline, projects, and reflections.",
-      ],
-    },
-    lessons: {
-      es: [
-        "El contexto vuelve mas valiosa la evidencia.",
-        "Los aprendizajes colaborativos necesitan registrar roles, decisiones y resultados.",
-      ],
-      en: [
-        "Context makes evidence more valuable.",
-        "Collaborative learning should record roles, decisions, and outcomes.",
-      ],
-    },
+    slugs: [],
   },
   {
-    slug: "technical-growth-map",
-    title: {
-      es: "Mapa de crecimiento tecnico",
-      en: "Technical Growth Map",
+    anchor: "oportunidades",
+    title: { es: "Programa Oportunidades", en: "Programa Oportunidades" },
+    description: {
+      es: "Proyectos y logros desarrollados durante el programa de fortalecimiento académico.",
+      en: "Projects and achievements developed during the academic strengthening program.",
     },
-    summary: {
-      es: "Exploracion visual para conectar cursos, habilidades, proyectos y competencias de ingenieria.",
-      en: "Visual exploration for connecting courses, skills, projects, and engineering competencies.",
+    slugs: [],
+  },
+  {
+    anchor: "ina",
+    title: { es: "Instituto Nacional de Aguilares", en: "Instituto Nacional de Aguilares" },
+    description: {
+      es: "Proyectos y trabajos del bachillerato en Ciencias y Letras.",
+      en: "Projects and work from the high school diploma in Science and Arts.",
     },
-    date: "2026-05-10",
-    status: {
-      es: "Exploracion",
-      en: "Exploration",
+    slugs: [],
+  },
+  {
+    anchor: "infancia",
+    title: { es: "Infancia", en: "Childhood" },
+    description: {
+      es: "Primeros proyectos de exploración digital y curiosidad creativa.",
+      en: "First digital exploration projects and creative curiosity.",
     },
-    stage: {
-      es: "Futuro modulo",
-      en: "Future module",
-    },
-    featured: false,
-    tags: ["systems-design", "curriculum", "engineering"],
-    technologies: ["Data Modeling", "UX Design"],
-    powerSkills: ["critical-thinking", "creative-thinking"],
-    problem: {
-      es: "El progreso academico suele verse como una lista de materias, no como un sistema de conocimiento conectado.",
-      en: "Academic progress is often seen as a list of courses instead of a connected knowledge system.",
-    },
-    process: {
-      es: [
-        "Organizar etapas curriculares por areas de aprendizaje.",
-        "Explorar relaciones simples entre cursos, proyectos y competencias.",
-        "Evitar complejidad prematura hasta tener mas contenido real.",
-      ],
-      en: [
-        "Organize curriculum stages by learning areas.",
-        "Explore simple relationships between courses, projects, and competencies.",
-        "Avoid premature complexity until more real content exists.",
-      ],
-    },
-    outcomes: {
-      es: [
-        "Direccion inicial para el futuro Curriculum Explorer.",
-        "Vocabulario comun para hablar de habilidades y areas tecnicas.",
-      ],
-      en: [
-        "Initial direction for the future Curriculum Explorer.",
-        "Shared vocabulary for skills and technical areas.",
-      ],
-    },
-    lessons: {
-      es: [
-        "Un mapa educativo debe explicar evolucion, no solo clasificar informacion.",
-        "Las relaciones deben mantenerse humanas y faciles de editar.",
-      ],
-      en: [
-        "An education map should explain evolution, not only classify information.",
-        "Relationships should remain human and easy to edit.",
-      ],
-    },
+    slugs: [],
   },
 ];
 
+// ─── Journey milestones (newest → oldest) ─────────────────────────────────────
 export const journeyMilestones: JourneyMilestone[] = [
   {
-    institution: "Key Institute",
-    year: "2026 - actualmente",
+    institution: { es: "Key Institute", en: "Key Institute" },
+    year: { es: "Enero 2026 - presente", en: "January 2026 - present" },
+    link: "https://keyinstitute.com/",
     title: {
-      es: "Ingeniería en Ciencias de la Computacion Integradas",
-      en: "Project-based engineering",
+      es: "Ingeniería en Ciencias de la Computación Integradas",
+      en: "Engineering in Integrated Computer Science",
     },
     description: {
-      es: "La carrera en Ingeniería en Ciencias de la Computación conecta teoría, proyectos, colaboración y pensamiento lógico.",
-      en: "Engineering in Integrated Computer Science connects theory, projects, collaboration, and constant reflection.",
+      es: "La carrera conecta teoría, proyectos, colaboración y reflexión continua a través de una metodología basada en proyectos reales.",
+      en: "The degree connects theory, projects, collaboration, and continuous reflection through a project-based learning methodology.",
     },
     skills: ["Pensamiento Crítico", "Ingeniería", "Liderazgo", "Pensamiento Creativo", "Colaboración Efectiva", "Comunicación Efectiva", "Project Based Learning"],
     gallery: [
-      {
-        src: "/keyinstitute/key-logo.png",
-        alt: {
-          es: "Imagen principal de Key Institute",
-          en: "Main image of Key Institute stage",
-        },
-      },
-      {
-        src: "/keyinstitute/fachada.jpg",
-        alt: {
-          es: "Fachada de Key Institute",
-          en: "Front of Key Institute",
-        },
-      },
-      {
-        src: "/keyinstitute/do-engineer.jpg",
-        alt: {
-          es: "Do engineer, el lema de Key Institute",
-          en: "Do engineer, Key Institute's motto",
-        },
-      },
-      {
-        src: "/keyinstitute/group.jpg",
-        alt: {
-          es: "Trabajo en equipo, parte fundamental de la experiencia en Key Institute",
-          en: "Teamwork, a fundamental part of the experience at Key Institute",
-        },
-      },
-      {
-        src: "/keyinstitute/group-2.jpg",
-        alt: {
-          es: "Trabajo en equipo, parte fundamental de la experiencia en Key Institute",
-          en: "Teamwork, a fundamental part of the experience at Key Institute",
-        },
-      },
-      {
-        src: "/keyinstitute/carlos-vela.jpg",
-        alt: {
-          es: "Carlos Vela, creador de STEM",
-          en: "Carlos Vela, creator of STEM",
-        },
-      },
-            {
-        src: "/keyinstitute/tere.jpg",
-        alt: {
-          es: "Tere, proyecto de emprendimiento en key institute",
-          en: "Tere, entrepreneurship project at Key Institute",
-        },
-      },
+      { src: "/keyinstitute/key-logo.png", alt: { es: "Logo de Key Institute", en: "Key Institute logo" } },
+      { src: "/keyinstitute/fachada.jpg", alt: { es: "Fachada de Key Institute", en: "Front of Key Institute" } },
+      { src: "/keyinstitute/do-engineer.jpg", alt: { es: "Do Engineer, el lema de Key Institute", en: "Do Engineer, Key Institute's motto" } },
+      { src: "/keyinstitute/group.jpg", alt: { es: "Trabajo en equipo en Key Institute", en: "Teamwork at Key Institute" } },
+      { src: "/keyinstitute/group-2.jpg", alt: { es: "Colaboración en Key Institute", en: "Collaboration at Key Institute" } },
+      { src: "/keyinstitute/carlos-vela.jpg", alt: { es: "Carlos Vela, creador del modelo STEM en Key Institute", en: "Carlos Vela, creator of the STEM model at Key Institute" } },
+      { src: "/keyinstitute/tere.jpg", alt: { es: "Tere, proyecto de emprendimiento en Key Institute", en: "Tere, entrepreneurship project at Key Institute" } },
     ],
     relatedProjects: ["engineering-journey-platform", "key-institute-pbl-archive"],
+    projectsHref: "/projects#keyinstitute",
   },
   {
-    institution: "Programa Oportunidades",
-    year: "2022 - 2024",
+    institution: { es: "Universidad Don Bosco", en: "Universidad Don Bosco" },
+    year: { es: "Enero 2024 - Junio 2026", en: "January 2024 - June 2026" },
+    link: "https://www.udb.edu.sv/udb/",
     title: {
-      es: "Disciplina, comunicacion y proposito",
-      en: "Discipline, communication, and purpose",
+      es: "Técnico en Ingeniería en Computación",
+      en: "Technical Degree in Computer Engineering",
     },
     description: {
-      es: "La beca fortalecio habilidades personales, ingles, liderazgo y preparacion para oportunidades academicas y profesionales.",
-      en: "The scholarship strengthened personal skills, English, leadership, and preparation for academic and professional opportunities.",
+      es: "Formación técnica que convirtió el interés en práctica: programación, resolución de problemas y primeros proyectos reales.",
+      en: "Technical training that turned interest into practice: programming, problem solving, and first real projects.",
     },
-    skills: ["liderazgo", "ingles", "comunicacion"],
+    skills: ["Fundamentos de programación", "Trabajo en equipo", "Frontend", "Backend", "Bases de Datos", "Redes Informáticas", "Desarrollo Mobile", "Servidores"],
     gallery: [
-      {
-        src: "/josueduardev.png",
-        alt: {
-          es: "Imagen temporal para Programa Oportunidades",
-          en: "Temporary image for Programa Oportunidades",
-        },
-      },
-      {
-        src: "/josueduardev.svg",
-        alt: {
-          es: "Marca personal como evidencia temporal",
-          en: "Personal brand used as temporary evidence",
-        },
-      },
-      {
-        src: "/computer-science-logo.svg",
-        alt: {
-          es: "Simbolo tecnico complementario",
-          en: "Complementary technical symbol",
-        },
-      },
+      { src: "/udb/udb-logo.webp", alt: { es: "Logo de Universidad Don Bosco", en: "Universidad Don Bosco logo" } },
+      { src: "/udb/labs.webp", alt: { es: "Laboratorios de la Universidad", en: "University computer labs" } },
+      { src: "/udb/grupo.jpg", alt: { es: "Foto tomada en la Universidad", en: "Photo taken at the University" } },
     ],
+    projectsHref: "/projects#udb",
   },
   {
-    institution: "Formacion tecnica",
-    year: "2024 - 2026",
+    institution: { es: "Programa Oportunidades - FGK", en: "Programa Oportunidades - FGK" },
+    year: { es: "Enero 2022 - Febrero 2024", en: "January 2022 - February 2024" },
+    link: "https://www.oportunidades.org.sv/",
     title: {
-      es: "Software y fundamentos de computacion",
-      en: "Software and computing foundations",
+      es: "Educación complementaria para beca universitaria",
+      en: "Values, Gratitude, Perseverance, and Community",
     },
     description: {
-      es: "La formacion tecnica ayudo a convertir interes en practica: programacion, resolucion de problemas y primeros proyectos.",
-      en: "Technical training helped turn interest into practice through programming, problem solving, and early projects.",
+      es: "Programa de fortalecimiento académico en computación, inglés, liderazgo, emprendimiento, orientación vocacional y habilidades blandas.",
+      en: "Academic strengthening program covering computing, English, leadership, entrepreneurship, vocational guidance, and soft skills.",
     },
-    skills: ["programacion", "logica", "bases tecnicas"],
+    skills: ["Liderazgo", "Inglés", "Comunicación"],
     gallery: [
-      {
-        src: "/computer-science-logo.svg",
-        alt: {
-          es: "Simbolo de formacion tecnica en computacion",
-          en: "Symbol for technical computing education",
-        },
-      },
-      {
-        src: "/josueduardev.png",
-        alt: {
-          es: "Imagen temporal de desarrollo personal",
-          en: "Temporary image for personal development",
-        },
-      },
-      {
-        src: "/josueduardev.svg",
-        alt: {
-          es: "Identidad grafica temporal",
-          en: "Temporary graphic identity",
-        },
-      },
+      { src: "/opor/oportunidades-logo.png", alt: { es: "Imagen de Programa Oportunidades", en: "Programa Oportunidades image" } },
+      { src: "/josueduardev.svg", alt: { es: "Marca personal como evidencia", en: "Personal brand as evidence" } },
+      { src: "/computer-science-logo.svg", alt: { es: "Símbolo técnico", en: "Technical symbol" } },
     ],
+    projectsHref: "/projects#oportunidades",
   },
   {
-    institution: "Infancia",
-    year: "2018 - 2019",
+    institution: { es: "Instituto Nacional de Aguilares", en: "Instituto Nacional de Aguilares" },
+    year: { es: "Enero 2022 - Febrero 2024", en: "January 2022 - February 2024" },
+    link: "https://www.facebook.com/people/Instituto-Nacional-de-Aguilares-Oficial/100057503498813/",
     title: {
-      es: "Primer contacto con tecnologia",
+      es: "Bachillerato General con Diplomado en Desarrollo de Software",
+      en: "High School with a Software Development Diploma",
+    },
+    description: {
+      es: "Formación secundaria donde se construyeron las bases académicas y personales, mientras se descubría una vocación hacia la tecnología y el pensamiento lógico.",
+      en: "Secondary education where academic and personal foundations were built, while discovering a vocation towards technology and logical thinking.",
+    },
+    skills: ["Matemáticas", "Ciencias", "Disciplina", "Autodidacta"],
+    gallery: [
+      { src: "/ina/logo-ina.jpg", alt: { es: "Imagen representativa del Instituto Nacional de Aguilares", en: "Representative image of Instituto Nacional de Aguilares" } },
+      { src: "/computer-science-logo.svg", alt: { es: "Símbolo de aprendizaje técnico temprano", en: "Early technical learning symbol" } },
+      { src: "/josueduardev.png", alt: { es: "Retrato de contexto del Instituto Nacional de Aguilares", en: "Context portrait from Instituto Nacional de Aguilares" } },
+    ],
+    projectsHref: "/projects#ina",
+  },
+  {
+    institution: { es: "Infancia", en: "Childhood" },
+    year: { es: "2018 - 2019", en: "2018 - 2019" },
+    title: {
+      es: "Primer contacto con tecnología",
       en: "First contact with technology",
     },
     description: {
-      es: "La curiosidad por computadoras, diseno y herramientas digitales comenzo temprano y formo una base creativa para aprender tecnologia.",
+      es: "La curiosidad por computadoras, diseño y herramientas digitales comenzó temprano y formó una base creativa para aprender tecnología.",
       en: "Early curiosity for computers, design, and digital tools built a creative foundation for learning technology.",
     },
-    skills: ["curiosidad", "diseno grafico", "aprendizaje autonomo"],
+    skills: ["Curiosidad", "Diseño Gráfico", "Aprendizaje Autónomo"],
     gallery: [
-      {
-        src: "/josueduardev.svg",
-        alt: {
-          es: "Imagen temporal para el primer contacto con tecnologia",
-          en: "Temporary image for first contact with technology",
-        },
-      },
-      {
-        src: "/computer-science-logo.svg",
-        alt: {
-          es: "Simbolo de aprendizaje temprano",
-          en: "Early learning symbol",
-        },
-      },
-      {
-        src: "/josueduardev.png",
-        alt: {
-          es: "Retrato temporal de contexto personal",
-          en: "Temporary portrait for personal context",
-        },
-      },
+      { src: "/josueduardev.svg", alt: { es: "Imagen del primer contacto con tecnología", en: "Image of first contact with technology" } },
+      { src: "/computer-science-logo.svg", alt: { es: "Símbolo de aprendizaje temprano", en: "Early learning symbol" } },
+      { src: "/josueduardev.png", alt: { es: "Retrato de contexto personal", en: "Personal context portrait" } },
     ],
+    projectsHref: "/projects#infancia",
   },
 ];
 
 export function getLocaleValue<T>(value: Record<Locale, T>, locale: string): T {
   return value[locale === "en" ? "en" : "es"];
-}
-
-export function getProject(slug: string) {
-  return projects.find((project) => project.slug === slug);
-}
-
-export function getFeaturedProjects() {
-  return projects.filter((project) => project.featured);
 }

@@ -2,33 +2,33 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import SectionHeader from "@/components/shared/SectionHeader";
 import ProjectCard from "@/components/projects/ProjectCard";
-import TagList from "@/components/shared/TagList";
-import { projects, type Locale } from "@/lib/content";
+import { projectGroups, getLocaleValue, type Locale } from "@/lib/content";
+import { getAllProjects } from "@/lib/projects";
 
 export const metadata: Metadata = {
-  title: "Projects",
-  description:
-    "Engineering projects, case studies, and learning evidence from Josue Garcia.",
+  title: "Proyectos",
+  description: "Proyectos de ingeniería documentados como casos de aprendizaje de Josué García.",
 };
 
-const copy = {
+const copy: Record<Locale, {
+  title: string;
+  description: string;
+  comingSoon: string;
+  comingSoonSub: string;
+}> = {
   es: {
     title: "Proyectos documentados como casos de aprendizaje.",
-    description:
-      "Cada proyecto debe contar el problema, el proceso, las decisiones y las lecciones. Esta primera version crea el indice que despues recibira MDX y casos de estudio completos.",
-    featured: "Destacados",
-    all: "Todos los proyectos",
-    tags: "Vocabulario inicial",
+    description: "Cada proyecto cuenta el problema, el proceso, las decisiones y las lecciones aprendidas.",
+    comingSoon: "Próximamente",
+    comingSoonSub: "Los proyectos de esta etapa se documentarán a medida que avance la carrera.",
   },
   en: {
     title: "Projects documented as learning case studies.",
-    description:
-      "Each project should explain the problem, process, decisions, and lessons. This first version creates the index that will later receive MDX and full case studies.",
-    featured: "Featured",
-    all: "All projects",
-    tags: "Initial vocabulary",
+    description: "Each project explains the problem, process, decisions, and lessons learned.",
+    comingSoon: "Coming soon",
+    comingSoonSub: "Projects from this stage will be documented as the degree progresses.",
   },
-} as const;
+};
 
 export default async function ProjectsPage({
   params,
@@ -38,8 +38,7 @@ export default async function ProjectsPage({
   const { locale } = await params;
   const t = await getTranslations("Navigation");
   const c = copy[locale];
-  const featuredProjects = projects.filter((project) => project.featured);
-  const allTags = Array.from(new Set(projects.flatMap((project) => project.tags)));
+  const allProjects = getAllProjects();
 
   return (
     <div className="mx-auto max-w-[1280px] px-6 py-16 md:py-24">
@@ -48,38 +47,40 @@ export default async function ProjectsPage({
         title={c.title}
         description={c.description}
       />
-      <section className="mt-12">
-        <div className="mb-5 flex items-center justify-between gap-4">
-          <h2 className="text-xl font-semibold text-neutral-900 dark:text-white">
-            {c.featured}
-          </h2>
-        </div>
-        <div className="grid gap-5 md:grid-cols-2">
-          {featuredProjects.map((project) => (
-            <ProjectCard key={project.slug} project={project} locale={locale} />
-          ))}
-        </div>
-      </section>
-      <section className="mt-16 grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="rounded-sm border border-[var(--border-color)] bg-[var(--bg)] p-6">
-          <h2 className="text-xl font-semibold text-neutral-900 dark:text-white">
-            {c.tags}
-          </h2>
-          <div className="mt-5">
-            <TagList tags={allTags} tone="blue" />
-          </div>
-        </div>
-        <div>
-          <h2 className="mb-5 text-xl font-semibold text-neutral-900 dark:text-white">
-            {c.all}
-          </h2>
-          <div className="grid gap-5">
-            {projects.map((project) => (
-              <ProjectCard key={project.slug} project={project} locale={locale} />
-            ))}
-          </div>
-        </div>
-      </section>
+
+      <div className="mt-16 space-y-24">
+        {projectGroups.map((group) => {
+          const groupProjects = group.slugs
+            .map((slug) => allProjects.find((p) => p.slug === slug))
+            .filter(Boolean) as typeof allProjects;
+
+          const groupTitle = getLocaleValue(group.title, locale);
+          const groupDescription = getLocaleValue(group.description, locale);
+
+          return (
+            <section key={group.anchor} id={group.anchor} className="scroll-mt-8">
+              <SectionHeader eyebrow={groupTitle} title={groupDescription} />
+
+              {groupProjects.length > 0 ? (
+                <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {groupProjects.map((project) => (
+                    <ProjectCard key={project.slug} project={project} locale={locale} />
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-8 rounded-sm border border-dashed border-[var(--border-color)] px-8 py-12 text-center">
+                  <p className="text-sm font-semibold text-neutral-500 dark:text-neutral-400">
+                    {c.comingSoon}
+                  </p>
+                  <p className="mt-1 text-sm text-neutral-400 dark:text-neutral-500">
+                    {c.comingSoonSub}
+                  </p>
+                </div>
+              )}
+            </section>
+          );
+        })}
+      </div>
     </div>
   );
 }
