@@ -3,110 +3,26 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import SectionHeader from "@/components/shared/SectionHeader";
+import {
+  certifications,
+  certificationCategories,
+  formatCertDate,
+  buildCertHref,
+} from "@/lib/certifications";
 import type { Locale } from "@/lib/content";
-import { formatDate, buildHref } from "@/lib/helper";
-import type { Certification, Category } from "@/types/certification";
 
 export const metadata: Metadata = {
   title: "Certificaciones",
   description: "Certificaciones y cursos completados por Josué García.",
 };
 
-const certifications: Certification[] = [
-  {
-    id: "PLATZI-01",
-    name: { es: "Curso para Líderes en Formación", en: "Course for Leaders in Training" },
-    issuer: "Platzi - Escuela de Habilidades Blandas",
-    date: "2026-05",
-    image: "/achievements/liderazgo-platzi.png",
-    url: "https://platzi.com/p/eduardo.garcia2271/curso/1286-course/diploma/detalle/",
-    category: "soft-skills",
-  },
-  {
-    id: "PLATZI-02",
-    name: { es: "Curso de Backend con Express JS", en: "Backend Course with Express JS" },
-    issuer: "Platzi - Escuela de Desarrollo Web",
-    date: "2025-12",
-    image: "/achievements/expressjs.png",
-    url: "https://platzi.com/p/ge240098/curso/11971-course/diploma/detalle/",
-    category: "dev",
-  },
-  {
-    id: "CREO-01",
-    name: { es: "Taller de Promueve tu País", en: "Workshop: Promote Your Country" },
-    issuer: "FUSADES - Promueve tu País",
-    date: "2024-08",
-    image: "/achievements/taller-creo.png",
-    url: "https://drive.google.com/file/d/1pP4cZAseREH-_8LpeesGHv9L2j2l9lUI/preview",
-    category: "talleres",
-  },
-  {
-    id: "OPOR-01",
-    name: { es: "Certificado de Workeys", en: "Certificate of Training in Employability" },
-    issuer: "Programa Oportunidades - Fase 3",
-    date: "2025-02",
-    image: "/achievements/workeys.png",
-    url: "https://drive.google.com/file/d/12LzAdwr7PaS3wLMrjdikDjvxX7zYfdWB/preview",
-    category: "talleres",
-  },
-  {
-    id: "OPOR-02",
-    name: { es: "Diploma de Participación de mentorías", en: "Diploma of Participation in Mentoring" },
-    issuer: "PBS x FGK",
-    date: "2025-10",
-    image: "/achievements/pbs-mentoring.png",
-    url: "https://drive.google.com/file/d/1m1CUXyC33pX0kUWpJhM__YOYAmmJINiw/preview",
-    category: "talleres",
-  },
-  {
-    id: "PLATZI-03",
-    name: { es: "Curso de Ingeniería de Software", en: "Software Engineering Course" },
-    issuer: "Platzi - Escuela de Ingeniería de Software",
-    date: "2025-08",
-    image: "/achievements/fundamentos-software.png",
-    url: "https://platzi.com/p/ge240098/curso/11997-course/diploma/detalle/",
-    category: "dev",
-  },
-  {
-    id: "PLATZI-04",
-    name: { es: "Curso de Prompt Engineering", en: "Prompt Engineering Course" },
-    issuer: "Platzi - Escuela de Inteligencia Artificial",
-    date: "2025-10",
-    image: "/achievements/prompt-eng.png",
-    url: "https://platzi.com/p/ge240098/curso/12323-course/diploma/detalle/",
-    category: "ai",
-  },
-  {
-    id: "KEY-01",
-    name: { es: "Programa DALE", en: "DALE Program" },
-    issuer: "Key Institute x Fundación FORJA",
-    date: "2026-05",
-    image: "/achievements/dale.png",
-    url: "https://drive.google.com/file/d/1v-j5LYBwXm3KKThZwaEmQGsr6wbMotX4/preview",
-    category: "talleres",
-  },
-];
-
-// ─── Categories ───────────────────────────────────────────────────────────────
-
-const categories: { id: Category | "all"; label: Record<Locale, string> }[] = [
-  { id: "all", label: { es: "Todos", en: "All" } },
-  { id: "dev", label: { es: "Desarrollador", en: "Developer" } },
-  { id: "ai", label: { es: "AI", en: "AI" } },
-  { id: "soft-skills", label: { es: "Soft Skills", en: "Soft Skills" } },
-  { id: "talleres", label: { es: "Talleres", en: "Workshops" } },
-];
-
+// ─── Copy (UI text only — datos en lib/certifications.ts) ────────────────────
 
 const copy: Record<Locale, {
-  eyebrow: string;
-  title: string;
-  description: string;
-  empty: string;
-  emptySub: string;
-  prev: string;
-  next: string;
-  pageOf: string;
+  eyebrow: string; title: string; description: string;
+  empty: string; emptySub: string;
+  prev: string; next: string; pageOf: string;
+  sortAsc: string; sortDesc: string;
 }> = {
   es: {
     eyebrow: "Certificaciones",
@@ -117,6 +33,8 @@ const copy: Record<Locale, {
     prev: "Anterior",
     next: "Siguiente",
     pageOf: "de",
+    sortAsc: "Más antiguos primero",
+    sortDesc: "Más recientes primero",
   },
   en: {
     eyebrow: "Certifications",
@@ -127,73 +45,114 @@ const copy: Record<Locale, {
     prev: "Previous",
     next: "Next",
     pageOf: "of",
+    sortAsc: "Oldest first",
+    sortDesc: "Newest first",
   },
 };
 
 const PAGE_SIZE = 12;
 
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function CertificationsPage({
   params,
   searchParams,
 }: {
   params: Promise<{ locale: Locale }>;
-  searchParams: Promise<{ category?: string; page?: string }>;
+  searchParams: Promise<{ category?: string; page?: string; order?: string }>;
 }) {
   const { locale } = await params;
-  const { category: rawCategory, page: rawPage } = await searchParams;
-
+  const { category: rawCategory, page: rawPage, order: rawOrder } = await searchParams;
   const t = await getTranslations("Navigation");
   const c = copy[locale];
 
   const activeCategory = rawCategory && rawCategory !== "all" ? rawCategory : "all";
+  const order = rawOrder === "asc" ? "asc" : "desc";
   const currentPage = Math.max(1, parseInt(rawPage ?? "1", 10));
+  const cat = activeCategory === "all" ? undefined : activeCategory;
+  const orderParam = order === "desc" ? undefined : order;
 
-  // Filter by category
-  const filtered =
-    activeCategory === "all"
-      ? certifications
-      : certifications.filter((cert) => cert.category === activeCategory);
+  const filtered = cat
+    ? certifications.filter((cert) => cert.category === cat)
+    : certifications;
 
-  // Sort newest → oldest by YYYY-MM string comparison
-  const sorted = [...filtered].sort((a, b) => b.date.localeCompare(a.date));
+  const sorted = [...filtered].sort((a, b) =>
+    order === "asc" ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date)
+  );
 
-  // Paginate
   const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
   const safePage = Math.min(currentPage, totalPages);
   const paged = sorted.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+  const toggleOrderHref = buildCertHref({
+    category: cat,
+    order: order === "desc" ? "asc" : "desc",
+  });
 
   return (
     <div className="mx-auto max-w-[1280px] px-6 py-16 md:py-24">
-      <SectionHeader
-        eyebrow={t("achievements")}
-        title={c.title}
-        description={c.description}
-      />
+      <SectionHeader eyebrow={t("achievements")} title={c.title} description={c.description} />
 
-      {/* ── Category filters ─────────────────────────────────────────────── */}
-      <div className="mt-10 flex flex-wrap gap-2">
-        {categories.map((cat) => {
-          const isActive = cat.id === activeCategory;
-          return (
-            <Link
-              key={cat.id}
-              href={buildHref(cat.id === "all" ? undefined : cat.id)}
-              className={[
-                "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
-                isActive
-                  ? "border-primary bg-primary text-white"
-                  : "border-(--border-color) bg-(--bg) text-neutral-600 hover:border-primary/40 hover:text-primary dark:text-neutral-400",
-              ].join(" ")}
-            >
-              {cat.label[locale]}
-            </Link>
-          );
-        })}
+      {/* ── Filters + sort row ───────────────────────────────────────────── */}
+      <div className="mt-10 flex flex-wrap items-center justify-between gap-3">
+        {/* Category pills */}
+        <div className="flex flex-wrap gap-2">
+          {certificationCategories.map((category) => {
+            const isActive = category.id === activeCategory;
+            return (
+              <Link
+                key={category.id}
+                href={buildCertHref({
+                  category: category.id === "all" ? undefined : category.id,
+                  order: orderParam,
+                })}
+                className={[
+                  "rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
+                  isActive
+                    ? "border-primary bg-primary text-white"
+                    : "border-(--border-color) bg-(--bg) text-neutral-600 hover:border-primary/40 hover:text-primary dark:text-neutral-400",
+                ].join(" ")}
+              >
+                {category.label[locale]}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Sort toggle — Link preserves category, flips order, resets to page 1 */}
+        <Link
+          href={toggleOrderHref}
+          className="inline-flex items-center gap-2 rounded-sm border border-(--border-color) bg-(--bg) px-4 py-1.5 text-sm font-medium text-neutral-600 transition-colors hover:border-primary/40 hover:text-primary dark:text-neutral-400"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={14}
+            height={14}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            {order === "desc" ? (
+              <>
+                <path d="M12 5v14" />
+                <path d="m19 12-7 7-7-7" />
+              </>
+            ) : (
+              <>
+                <path d="M12 19V5" />
+                <path d="m5 12 7-7 7 7" />
+              </>
+            )}
+          </svg>
+          {order === "desc" ? c.sortDesc : c.sortAsc}
+        </Link>
       </div>
 
       {/* ── Grid ─────────────────────────────────────────────────────────── */}
-      <div className="mt-10">
+      <div className="mt-8">
         {paged.length === 0 ? (
           <div className="rounded-sm border border-dashed border-(--border-color) px-8 py-16 text-center">
             <p className="text-sm font-semibold text-neutral-500 dark:text-neutral-400">
@@ -226,7 +185,7 @@ export default async function CertificationsPage({
                       {cert.issuer}
                     </p>
                     <p className="mt-1 text-xs text-neutral-400 dark:text-neutral-500">
-                      {formatDate(cert.date, locale)}
+                      {formatCertDate(cert.date, locale)}
                     </p>
                   </div>
                 </div>
@@ -255,7 +214,7 @@ export default async function CertificationsPage({
         <div className="mt-10 flex items-center justify-center gap-3">
           {safePage > 1 ? (
             <Link
-              href={buildHref(activeCategory === "all" ? undefined : activeCategory, safePage - 1)}
+              href={buildCertHref({ category: cat, order: orderParam, page: safePage - 1 })}
               className="rounded-sm border border-(--border-color) bg-(--bg) px-4 py-2 text-sm font-medium text-neutral-700 transition-colors hover:border-primary/40 dark:text-neutral-300"
             >
               ← {c.prev}
@@ -272,7 +231,7 @@ export default async function CertificationsPage({
 
           {safePage < totalPages ? (
             <Link
-              href={buildHref(activeCategory === "all" ? undefined : activeCategory, safePage + 1)}
+              href={buildCertHref({ category: cat, order: orderParam, page: safePage + 1 })}
               className="rounded-sm border border-(--border-color) bg-(--bg) px-4 py-2 text-sm font-medium text-neutral-700 transition-colors hover:border-primary/40 dark:text-neutral-300"
             >
               {c.next} →

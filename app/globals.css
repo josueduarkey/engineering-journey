@@ -159,10 +159,6 @@ body {
   color: #006dff;
 }
 
-/* ─── View Transition API (React <ViewTransition> + experimental.viewTransition)
-   share="morph" assigns class .morph to the transition group, which we target
-   below. Root handles everything that is NOT a named shared element.
-   ────────────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
   /* Blog cover morph: slow spring so the expansion is clearly visible */
   ::view-transition-group(.morph) {

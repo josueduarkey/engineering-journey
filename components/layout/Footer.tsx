@@ -21,8 +21,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
           {/* Brand */}
           <div>
-            <p className="mb-3 text-sm font-semibold text-neutral-900 dark:text-white">
-              Engineering<span className="text-primary">Journey</span>
+            <p className="mb-3 text-sm font-semibold text-primary ">
+              Josueduar<span className=" text-neutral-900 dark:text-white"> dev</span>
             </p>
             <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">
               {t("tagline")}
