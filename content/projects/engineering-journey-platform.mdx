@@ -1,0 +1,49 @@
+---
+title:
+  es: Engineering Journey Platform
+  en: Engineering Journey Platform
+summary:
+  es: Sistema público para documentar proyectos, aprendizajes, logros y crecimiento técnico durante la carrera.
+  en: A public system for documenting projects, learning, achievements, and technical growth across the degree.
+date: 2026-05-31
+status:
+  es: En desarrollo
+  en: In progress
+stage:
+  es: Phase 2
+  en: Phase 2
+featured: true
+tags: [software-engineering, documentation, full-stack]
+technologies: [Next.js, TypeScript, Tailwind CSS, next-intl, MDX, Framer Motion]
+powerSkills: [critical-thinking, communication]
+---
+
+## El problema
+
+Un portafolio tradicional muestra qué hiciste, no cómo piensas ni cómo creces. Después de varios años de formación, lo que queda es una lista de proyectos sin contexto — sin el proceso, sin las decisiones, sin las lecciones.
+
+Para alguien al inicio de una carrera de ingeniería, documentar el proceso es más valioso que presentar el resultado. Necesitaba una plataforma que respondiera no solo *qué* construí, sino *por qué*, *cómo*, y *qué aprendí*.
+
+## El proceso
+
+- Definir la arquitectura desde cero priorizando simplicidad y escalabilidad a largo plazo
+- Elegir Next.js 16 App Router por su soporte nativo para i18n, SSG y Server Components
+- Implementar un sistema bilingüe (ES/EN) desde el día uno con next-intl
+- Diseñar un sistema visual limpio con Tailwind v4 y tema claro/oscuro
+- Separar contenido en estructuras tipadas para facilitar la migración a MDX posterior
+- Construir la trayectoria con animaciones bidireccionales de scroll usando Framer Motion
+- Migrar contenido de proyectos a MDX para permitir documentación rica y escalable
+
+## Resultados
+
+- Plataforma funcional con Home, Journey, Projects y Blog
+- Sistema de i18n con rutas `/es` y `/en` operativo
+- Pipeline MDX con syntax highlighting y View Transitions API
+- Primer caso de estudio documentado dentro de la misma plataforma
+
+## Lecciones aprendidas
+
+- La documentación debe ser parte del producto desde el inicio, no una tarea posterior
+- Una arquitectura simple es más fácil de mantener durante cuatro años que una compleja desde el principio
+- Next.js 16 tiene breaking changes significativos respecto a versiones anteriores — leer los docs de la versión específica evita horas de debugging
+- Documentar el propio sistema de documentación es el primer ejercicio real de la plataforma

@@ -1,0 +1,61 @@
+---
+title: Por qué empecé a documentar públicamente
+date: 2026-06-01
+summary: Un portafolio muestra qué hiciste. Una plataforma de documentación muestra cómo piensas, cómo creces y cómo resuelves problemas. Aquí explico por qué elegí construir esto.
+tags: [reflexión, ingeniería, documentación]
+featured: true
+coverImage: /blog/blog-1.webp
+---
+
+## El problema con un portafolio tradicional
+
+Cuando empecé a pensar en cómo mostrar mi trabajo como ingeniero, lo primero que vino a mi mente fue un portafolio. Proyectos presentados visualmente, tecnologías listadas, links a repositorios. El modelo estándar.
+
+Pero algo no encajaba.
+
+Un portafolio responde *qué* hiciste. No responde *por qué* lo hiciste, *cómo* pensaste al hacerlo, *qué salió mal en el camino*, ni *qué aprendiste después.* Para alguien que está al inicio de una carrera de ingeniería, ocultar ese proceso es exactamente lo opuesto a lo que tiene valor.
+
+## La idea detrás de Engineering Journey
+
+La pregunta que me hice fue simple: ¿qué tipo de plataforma querría encontrar yo si quisiera entender cómo piensa un ingeniero en formación?
+
+No quería algo que dijera "hice esto". Quería algo que dijera:
+
+- Aquí estaba el problema
+- Así lo analicé
+- Estas fueron las decisiones que tomé y por qué
+- Esto salió bien, esto salió mal
+- Esto aprendí
+
+Eso es lo que construí. No un portafolio, sino un **Engineering Operating System**: una plataforma donde cada proyecto, experiencia y reflexión queda registrada de forma estructurada, pública y escalable.
+
+## El stack técnico como primera decisión documentada
+
+Elegir el stack fue la primera decisión de ingeniería de este proyecto. Y siguiendo la filosofía del mismo, aquí está el razonamiento:
+
+```ts
+// El stack elegido, con intención
+const stack = {
+  framework: "Next.js 16", // App Router, static generation, i18n nativo
+  language: "TypeScript",  // Seguridad de tipos para contenido que crecerá años
+  styling: "Tailwind v4",  // CSS-first, sin config extra, rápido de iterar
+  content: "MDX",          // Markdown + componentes React en el mismo archivo
+  i18n: "next-intl",       // Rutas /es y /en desde el día uno
+};
+```
+
+Cada elección responde a un principio: **la plataforma debe seguir siendo fácil de mantener en cuatro años.** Sin bases de datos. Sin CMS externo. Sin complejidad prematura. Solo archivos en un repositorio.
+
+## Por qué documentar en público
+
+Documentar en público tiene un costo: la incomodidad de mostrar trabajo incompleto, decisiones cuestionables, procesos desordenados. Pero ese costo viene con un beneficio claro.
+
+Te obliga a ser preciso. No puedes escribir "lo hice así" si no entiendes exactamente por qué lo hiciste así.
+
+Además, hay algo en la permanencia de un registro público que cambia cómo trabajas. Cada proyecto ya no es solo una tarea. Se convierte en evidencia de cómo piensas.
+
+## Lo que viene
+
+Esta plataforma irá creciendo a lo largo de la carrera. Cada proyecto en Key Institute, cada experiencia de aprendizaje, cada reflexión técnica, quedará documentada aquí.
+
+El objetivo no es impresionar. El objetivo es tener un registro honesto de cómo se construye un ingeniero, desde adentro.
