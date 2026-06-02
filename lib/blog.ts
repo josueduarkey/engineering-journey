@@ -1,18 +1,10 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { BlogPost } from "@/types/blog";
 
 const BLOG_DIR = path.join(process.cwd(), "content", "blog");
 
-export type BlogPost = {
-  slug: string;
-  title: string;
-  date: string;
-  summary: string;
-  tags: string[];
-  featured: boolean;
-  coverImage?: string;
-};
 
 function ensureDir() {
   if (!fs.existsSync(BLOG_DIR)) {

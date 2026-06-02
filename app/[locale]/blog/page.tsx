@@ -5,7 +5,8 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import SectionHeader from "@/components/shared/SectionHeader";
 import TagList from "@/components/shared/TagList";
-import { getAllPosts, formatDate, type BlogPost } from "@/lib/blog";
+import { getAllPosts, formatDate } from "@/lib/blog";
+import type { BlogPost } from "@/types/blog";
 import type { Locale } from "@/lib/content";
 
 export const metadata: Metadata = {
