@@ -11,11 +11,8 @@ import {
 } from "@/lib/content";
 import TagList from "@/components/shared/TagList";
 import JourneyImageStack from "@/components/journey/JourneyImageStack";
+import {TimelineProps} from "@/types/journey"
 
-type TimelineProps = {
-  milestones: JourneyMilestone[];
-  locale: Locale;
-};
 
 const viewProjectsLabel: Record<Locale, string> = {
   es: "Ver proyectos",

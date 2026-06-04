@@ -8,12 +8,12 @@ import ThemeToggle from "./ThemeToggle";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 const navLinks = [
+  { key: "about", href: "/about" },
   { key: "journey", href: "/journey" },
   { key: "projects", href: "/projects" },
   { key: "blog", href: "/blog" },
   { key: "curriculum", href: "/curriculum" },
-  { key: "keyWeek", href: "/key-week" },
-  { key: "achievements", href: "/achievements" },
+  { key: "achievements", href: "/certifications" },
   { key: "contact", href: "/contact" },
 ] as const;
 

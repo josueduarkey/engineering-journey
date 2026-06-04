@@ -3,10 +3,10 @@ import { Link } from "@/i18n/navigation";
 import CVIcon from "@/components/layout/CVIcon";
 
 const footerLinks = [
+  { key: "about", href: "/about" },
   { key: "journey", href: "/journey" },
   { key: "projects", href: "/projects" },
   { key: "blog", href: "/blog" },
-  { key: "curriculum", href: "/curriculum" },
   { key: "achievements", href: "/certifications" },
   { key: "contact", href: "/contact" },
 ] as const;

@@ -1,10 +1,10 @@
 {
   "Navigation": {
+    "about": "About",
     "journey": "Journey",
     "projects": "Projects",
     "blog": "Blog",
     "curriculum": "Curriculum",
-    "keyWeek": "Key Week",
     "achievements": "Certifications",
     "contact": "Contact"
   },

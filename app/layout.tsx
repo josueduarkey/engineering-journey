@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     default: "Engineering Journey",
   },
   description:
-    "Plataforma de documentación de ingeniería de Josué García — proyectos, aprendizaje y crecimiento técnico.",
+    "Plataforma de documentación de ingeniería de Josué García - proyectos, aprendizaje y crecimiento técnico.",
   icons: {
     icon: "/computer-science-logo.svg",
   },

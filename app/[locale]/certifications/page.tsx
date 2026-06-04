@@ -26,8 +26,8 @@ const copy: Record<Locale, {
 }> = {
   es: {
     eyebrow: "Certificaciones",
-    title: "Cursos y certificaciones completados.",
-    description: "Aprendizaje continuo fuera del aula — plataformas, cursos especializados y formación técnica complementaria.",
+    title: "Cursos, talleres y certificaciones completados.",
+    description: "Aprendizaje continuo fuera del aula - plataformas, cursos especializados y formación técnica complementaria.",
     empty: "Próximamente",
     emptySub: "Las certificaciones de esta categoría aparecerán aquí.",
     prev: "Anterior",
@@ -39,7 +39,7 @@ const copy: Record<Locale, {
   en: {
     eyebrow: "Certifications",
     title: "Completed courses and certifications.",
-    description: "Continuous learning outside the classroom — platforms, specialized courses, and complementary technical training.",
+    description: "Continuous learning outside the classroom - platforms, specialized courses, and complementary technical training.",
     empty: "Coming soon",
     emptySub: "Certifications for this category will appear here.",
     prev: "Previous",

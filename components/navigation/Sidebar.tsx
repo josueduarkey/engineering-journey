@@ -8,11 +8,11 @@ import {
   ChevronRight,
   Menu,
   X,
+  UserRound,
   Road,
   BriefcaseBusiness,
   Newspaper,
   FileUser,
-  Calendar1,
   Trophy,
   Contact,
   type LucideIcon,
@@ -25,11 +25,11 @@ const navLinks: Array<{
   href: string;
   Icon: LucideIcon;
 }> = [
+  { key: "about", href: "/about", Icon: UserRound },
   { key: "journey", href: "/journey", Icon: Road },
   { key: "projects", href: "/projects", Icon: BriefcaseBusiness },
   { key: "blog", href: "/blog", Icon: Newspaper },
   { key: "curriculum", href: "/curriculum", Icon: FileUser },
-  { key: "keyWeek", href: "/key-week", Icon: Calendar1 },
   { key: "achievements", href: "/certifications", Icon: Trophy },
   { key: "contact", href: "/contact", Icon: Contact },
 ];
