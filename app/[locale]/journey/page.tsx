@@ -3,9 +3,17 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import Timeline from "@/components/journey/Timeline";
 import { journeyMilestones, type Locale } from "@/lib/content";
 
+const ogImage = `/og?title=Trayectoria&description=Timeline+de+crecimiento+acad%C3%A9mico%2C+t%C3%A9cnico+y+personal+de+Josu%C3%A9+Garc%C3%ADa.`;
+
 export const metadata: Metadata = {
   title: "Trayectoria",
-  description: "Timeline de crecimiento académico, técnico y personal de Josué García.",
+  description: "Timeline de crecimiento académico, técnico y personal de Josué García — desde la infancia hasta Key Institute.",
+  openGraph: {
+    title: "Trayectoria — Josué García",
+    description: "Timeline de crecimiento académico, técnico y personal.",
+    images: [{ url: ogImage, width: 1200, height: 630 }],
+  },
+  twitter: { card: "summary_large_image", title: "Trayectoria — Josué García", images: [ogImage] },
 };
 
 const copy: Record<Locale, { eyebrow: string; title: string; description: string }> = {

@@ -5,9 +5,17 @@ import ProjectCard from "@/components/projects/ProjectCard";
 import { projectGroups, getLocaleValue, type Locale } from "@/lib/content";
 import { getAllProjects } from "@/lib/projects";
 
+const ogImage = `/og?title=Proyectos&description=Casos+de+aprendizaje+documentados%3A+problema%2C+proceso%2C+decisiones+y+lecciones.`;
+
 export const metadata: Metadata = {
   title: "Proyectos",
-  description: "Proyectos de ingeniería documentados como casos de aprendizaje de Josué García.",
+  description: "Proyectos de ingeniería documentados como casos de aprendizaje — problema, proceso, decisiones y lecciones aprendidas.",
+  openGraph: {
+    title: "Proyectos — Josué García",
+    description: "Casos de aprendizaje documentados: problema, proceso, decisiones y lecciones.",
+    images: [{ url: ogImage, width: 1200, height: 630 }],
+  },
+  twitter: { card: "summary_large_image", title: "Proyectos — Josué García", images: [ogImage] },
 };
 
 const copy: Record<Locale, {

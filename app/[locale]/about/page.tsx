@@ -1,25 +1,26 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import StackIcon from "@/components/shared/StackIcon";
+import { techStack } from "@/lib/stack";
 import type { Locale } from "@/lib/content";
+
+const ogImage = `/og?title=Sobre+m%C3%AD&description=Estudiante+de+Ingenier%C3%ADa+en+Key+Institute%2C+El+Salvador.+Aprendo+construyendo+sistemas+reales.`;
 
 export const metadata: Metadata = {
   title: "Sobre mí",
-  description: "Josué García — Engineering Student & Developer en Key Institute, El Salvador.",
+  description: "Josué García — Engineering Student & Developer en Key Institute, El Salvador. Aprendo construyendo sistemas reales y documento cada etapa del camino.",
+  openGraph: {
+    title: "Sobre mí — Josué García",
+    description: "Engineering Student & Developer en Key Institute, El Salvador.",
+    images: [{ url: ogImage, width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sobre mí — Josué García",
+    images: [ogImage],
+  },
 };
 
-const techStack = [
-  {
-    category: { es: "Frontend", en: "Frontend" },
-    items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "HTML & CSS"],
-  },
-  {
-    category: { es: "Backend", en: "Backend" },
-    items: ["Node.js", "Express.js"],
-  },
-  {
-    category: { es: "Herramientas", en: "Tools" },
-    items: ["Git", "GitHub"],
-  },
-];
 
 const currently = [
   {
@@ -93,11 +94,15 @@ export default async function AboutPage({
 
         {/* Photo column */}
         <div className="flex flex-col items-center gap-6 lg:items-start">
-          {/* Photo — replace the inner div with <Image src="/about/photo.jpg" fill className="object-cover" alt={c.photoAlt} /> when ready */}
-          <div className="relative h-64 w-64 overflow-hidden rounded-2xl border border-(--border-color) bg-primary/5 lg:w-full lg:h-72">
-            <div className="flex h-full w-full items-center justify-center">
-              <span className="text-6xl font-bold text-primary/20 select-none">JG</span>
-            </div>
+          <div className="relative h-64 w-64 overflow-hidden rounded-2xl border border-(--border-color) lg:w-full lg:h-72">
+            <Image
+              src="/josue_garcia.jpg"
+              alt={c.photoAlt}
+              fill
+              className="object-cover object-top"
+              priority
+              sizes="(max-width: 1024px) 256px, 260px"
+            />
           </div>
 
           {/* Social links */}
@@ -183,23 +188,29 @@ export default async function AboutPage({
 
       {/* ── Tech Stack ──────────────────────────────────────────────── */}
       <div className="mt-20 border-t border-(--border-color) pt-16">
-        <p className="mb-8 text-xs font-semibold uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
+        <p className="mb-10 text-center text-xs font-semibold uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
           {c.stackTitle}
         </p>
-        <div className="grid gap-8 sm:grid-cols-3">
+
+        {/* 2×2 grid: [Frontend, Backend] / [Tools, AI] */}
+        <div className="grid gap-8 sm:grid-cols-2">
           {techStack.map((group) => (
-            <div key={group.category.en}>
-              <p className="mb-3 text-sm font-semibold text-neutral-900 dark:text-white">
-                {group.category[locale]}
+            <div
+              key={group.id}
+              className="rounded-sm border border-(--border-color) bg-(--bg) p-6"
+            >
+              <p className="mb-5 text-xs font-semibold uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
+                {group.label[locale]}
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-5">
                 {group.items.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full border border-(--border-color) bg-(--bg) px-3 py-1 text-xs font-medium text-neutral-600 dark:text-neutral-400"
-                  >
-                    {item}
-                  </span>
+                  <StackIcon
+                    key={item.name}
+                    name={item.name}
+                    lightSrc={item.lightSrc}
+                    darkSrc={item.darkSrc}
+                    size={36}
+                  />
                 ))}
               </div>
             </div>
