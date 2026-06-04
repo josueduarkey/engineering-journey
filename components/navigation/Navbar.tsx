@@ -12,7 +12,6 @@ const navLinks = [
   { key: "journey", href: "/journey" },
   { key: "projects", href: "/projects" },
   { key: "blog", href: "/blog" },
-  { key: "curriculum", href: "/curriculum" },
   { key: "achievements", href: "/certifications" },
   { key: "contact", href: "/contact" },
 ] as const;
