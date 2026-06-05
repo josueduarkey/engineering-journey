@@ -6,22 +6,6 @@ import StackIcon from "@/components/shared/StackIcon";
 import { techStack } from "@/lib/stack";
 import type { Locale } from "@/lib/content";
 
-const ogImage = `/og?title=Sobre+m%C3%AD&description=Estudiante+de+Ingenier%C3%ADa+en+Key+Institute%2C+El+Salvador.+Aprendo+construyendo+sistemas+reales.`;
-
-export const metadata: Metadata = {
-  title: "Sobre mí",
-  description: "Josué García — Engineering Student & Developer en Key Institute, El Salvador. Aprendo construyendo sistemas reales y documento cada etapa del camino.",
-  openGraph: {
-    title: "Sobre mí — Josué García",
-    description: "Engineering Student & Developer en Key Institute, El Salvador.",
-    images: [{ url: ogImage, width: 1200, height: 630 }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Sobre mí — Josué García",
-    images: [ogImage],
-  },
-};
 
 
 const currently = [
@@ -33,6 +17,7 @@ const currently = [
     },
     period: { es: "Ene 2026 – presente", en: "Jan 2026 – present" },
     href: "https://keyinstitute.com/",
+    logo: "/key.svg",
   },
   {
     institution: { es: "Universidad Don Bosco", en: "Universidad Don Bosco" },
@@ -42,6 +27,7 @@ const currently = [
     },
     period: { es: "Ene 2024 – Jun 2026", en: "Jan 2024 – Jun 2026" },
     href: "https://www.udb.edu.sv/udb/",
+    logo: "/udb-logo.svg",
   },
 ];
 
@@ -79,6 +65,34 @@ const copy: Record<Locale, {
     photoAlt: "Photo of Josué García",
   },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const title = locale === "es" ? "Sobre mí" : "About";
+  const description = locale === "es"
+    ? "Josué García — Engineering Student & Developer en Key Institute, El Salvador. Aprendo construyendo sistemas reales y documento cada etapa del camino."
+    : "Josué García — Engineering Student & Developer at Key Institute, El Salvador. I learn by building real systems and document every step along the way.";
+  const ogTitle = locale === "es" ? "Sobre mí — Josué García" : "About — Josué García";
+  const ogDescription = locale === "es"
+    ? "Engineering Student & Developer en Key Institute, El Salvador."
+    : "Engineering Student & Developer at Key Institute, El Salvador.";
+  const ogImage = `/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(ogDescription)}`;
+  return {
+    title,
+    description,
+    alternates: { canonical: `/${locale}/about` },
+    openGraph: {
+      title: ogTitle,
+      description: ogDescription,
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+    },
+    twitter: { card: "summary_large_image", title: ogTitle, images: [ogImage] },
+  };
+}
 
 export default async function AboutPage({
   params,
@@ -171,9 +185,13 @@ export default async function AboutPage({
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-start gap-3 rounded-sm border border-(--border-color) bg-(--bg) px-4 py-3 transition-colors hover:border-primary/40"
+                  className="group flex items-center gap-3 rounded-sm border border-(--border-color) bg-(--bg) px-4 py-3 transition-colors hover:border-primary/40"
                 >
-                  <div className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-primary" />
+                  <img
+                    src={item.logo}
+                    alt={item.institution[locale]}
+                    className="h-12 w-12 shrink-0 object-contain"
+                  />
                   <div>
                     <p className="text-sm font-semibold text-neutral-900 transition-colors group-hover:text-primary dark:text-white">
                       {item.program[locale]}
