@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import StackIcon from "@/components/shared/StackIcon";
 import { techStack } from "@/lib/stack";
 import type { Locale } from "@/lib/content";
@@ -85,6 +87,7 @@ export default async function AboutPage({
 }) {
   const { locale } = await params;
   const c = copy[locale];
+  const t = await getTranslations("Navigation");
 
   return (
     <div className="mx-auto max-w-[1280px] px-6 py-16 md:py-24">
@@ -184,6 +187,22 @@ export default async function AboutPage({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* ── CTA Buttons ─────────────────────────────────────────────── */}
+      <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
+        <Link
+          href="/journey"
+          className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+        >
+          {t("journey")}
+        </Link>
+        <Link
+          href="/projects"
+          className="rounded-full border border-neutral-200 bg-(--bg) px-6 py-3 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
+        >
+          {t("projects")}
+        </Link>
       </div>
 
       {/* ── Tech Stack ──────────────────────────────────────────────── */}

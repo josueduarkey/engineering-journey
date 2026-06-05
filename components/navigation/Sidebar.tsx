@@ -35,7 +35,7 @@ const navLinks: Array<{ key: string; href: string; Icon: LucideIcon }> = [
 
 function Logo({ collapsed, onClick }: { collapsed: boolean; onClick?: () => void }) {
   return (
-    <Link href="/" onClick={onClick} aria-label="Inicio">
+    <Link href="/about" onClick={onClick} aria-label="Inicio">
       {collapsed ? (
         /* Collapsed: personal SVG icon */
         <div className="flex items-center justify-center transition-transform duration-200 hover:scale-110">

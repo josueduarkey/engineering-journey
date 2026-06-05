@@ -48,6 +48,8 @@ export const techStack: StackCategory[] = [
       { name: "Figma", lightSrc: "/stack/tools/figma.svg" },
       { name: "Postman", lightSrc: "/stack/tools/postman.svg" },
       { name: "VS Code", lightSrc: "/stack/tools/vscode.svg" },
+      { name: "Linux", lightSrc: "/stack/tools/linux.svg" },
+      { name: "Google Cloud", lightSrc: "/stack/tools/google-cloud.svg" },
     ],
   },
   {
@@ -58,6 +60,7 @@ export const techStack: StackCategory[] = [
       { name: "Codex", lightSrc: "/stack/ai/Codex_light.svg", darkSrc: "/stack/ai/Codex_dark.svg" },
       { name: "Cursor", lightSrc: "/stack/tools/Cursor_light.svg", darkSrc: "/stack/tools/Cursor_dark.svg" },
       { name: "Antigravity", lightSrc: "/stack/ai/antigravity.svg" },
+      { name: "GitHub Copilot", lightSrc: "/stack/ai/GitHub Copilot_light.svg", darkSrc: "/stack/ai/GitHub Copilot_dark.svg" },
     ],
   },
 ];
