@@ -9,11 +9,6 @@ import { getAllPosts, formatDate } from "@/lib/blog";
 import type { BlogPost } from "@/types/blog";
 import type { Locale } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description: "Artículos técnicos, reflexiones y notas de ingeniería de Josué García.",
-};
-
 const copy: Record<Locale, {
   eyebrow: string;
   title: string;
@@ -36,6 +31,27 @@ const copy: Record<Locale, {
     empty: "First articles are on the way.",
   },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const c = copy[locale];
+  const ogImage = `/og?title=${encodeURIComponent("Blog")}&description=${encodeURIComponent(c.description)}`;
+  return {
+    title: "Blog",
+    description: c.description,
+    alternates: { canonical: `/${locale}/blog` },
+    openGraph: {
+      title: "Blog — Josué García",
+      description: c.description,
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+    },
+    twitter: { card: "summary_large_image", title: "Blog — Josué García", images: [ogImage] },
+  };
+}
 
 function ArticleCard({
   post,

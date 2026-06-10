@@ -14,9 +14,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const project = getProjectMeta(slug);
   if (!project) return {};
+  const title = getLocaleValue(project.title, locale);
+  const description = getLocaleValue(project.summary, locale);
+  const ogImage = `/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`;
   return {
-    title: getLocaleValue(project.title, locale),
-    description: getLocaleValue(project.summary, locale),
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+    },
+    twitter: { card: "summary_large_image", title, images: [ogImage] },
   };
 }
 
