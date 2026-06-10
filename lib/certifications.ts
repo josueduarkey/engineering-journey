@@ -77,6 +77,15 @@ export const certifications: Certification[] = [
     url: "https://drive.google.com/file/d/1v-j5LYBwXm3KKThZwaEmQGsr6wbMotX4/preview",
     category: "talleres",
   },
+  {
+    id: "KEY-02",
+    name: { es: "Key Spark: Demo Day", en: "Key Spark: Demo Day" },
+    issuer: "Key Institute",
+    date: "2026-05",
+    image: "/achievements/key-spark.png",
+    url: "https://drive.google.com/file/d/1qQFa4uHeVvfFPv9yaG3RxsHp3aMjTGsu/preview",
+    category: "talleres",
+  },
 ];
 
 // ─── Categories ───────────────────────────────────────────────────────────────
