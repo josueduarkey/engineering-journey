@@ -94,6 +94,7 @@ export default async function ContactPage({
   return (
     <div className="mx-auto max-w-215 px-6 py-16 md:py-24">
       <SectionHeader
+        as="h1"
         eyebrow={t("contact")}
         title={c.title}
         description={c.description}

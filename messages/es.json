@@ -1,14 +1,18 @@
 {
   "Navigation": {
+    "navigationLabel": "Navegación principal",
+    "homeLabel": "Josué García — Inicio",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
     "about": "Sobre mí",
-    "journey": "Trayectoria",
+    "journey": "Educación",
     "projects": "Proyectos",
     "blog": "Blog",
     "achievements": "Certificaciones",
     "contact": "Contacto"
   },
   "Footer": {
-    "tagline": "Construyendo sistemas. Documentando el crecimiento. Compartiendo el camino.",
+    "tagline": "Cada proyecto, una oportunidad para aprender y aportar.",
     "quickLinks": "Links rápidos",
     "connect": "Conectar",
     "copyright": "© 2026 Josué García. Todos los derechos reservados."

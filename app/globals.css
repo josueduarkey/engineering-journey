@@ -57,6 +57,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 5rem;
 }
 
 body {
@@ -118,7 +119,8 @@ body {
     #4b5563 70%,
     #4b5563 100%
   );
-  background-size: 260% 100%;
+  /* The visible 25% fits entirely inside the solid colors at both endpoints. */
+  background-size: 400% 100%;
   background-position: 100%;
   -webkit-background-clip: text;
   background-clip: text;

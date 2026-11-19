@@ -143,7 +143,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         </div>
 
         {/* Sticky sidebar */}
-        <aside className="h-fit space-y-6 rounded-sm border border-(--border-color) bg-(--bg) p-6 lg:sticky lg:top-8">
+        <aside className="h-fit space-y-6 rounded-sm border border-(--border-color) bg-(--bg) p-6 lg:sticky lg:top-24">
           <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-neutral-400 dark:text-neutral-500">
               {c.technologies}

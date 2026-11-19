@@ -2,35 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import StackIcon from "@/components/shared/StackIcon";
-import { techStack } from "@/lib/stack";
+import TechToolbox from "@/components/about/TechToolbox";
+import ExperienceTimeline from "@/components/about/ExperienceTimeline";
+import SectionHeader from "@/components/shared/SectionHeader";
 import type { Locale } from "@/lib/content";
-
-
-
-const currently = [
-  {
-    institution: { es: "Key Institute", en: "Key Institute" },
-    program: {
-      es: "Ingeniería en Ciencias de la Computación Integradas",
-      en: "Engineering in Integrated Computer Science",
-    },
-    period: { es: "Ene 2026 – presente", en: "Jan 2026 – present" },
-    href: "https://keyinstitute.com/",
-    logo: "/key.svg",
-  },
-  {
-    institution: { es: "Universidad Don Bosco", en: "Universidad Don Bosco" },
-    program: {
-      es: "Técnico en Ingeniería en Computación",
-      en: "Technical Degree in Computer Engineering",
-    },
-    period: { es: "Ene 2024 – Jun 2026", en: "Jan 2024 – Jun 2026" },
-    href: "https://www.udb.edu.sv/udb/",
-    logo: "/udb-logo.svg",
-  },
-];
-
 const copy: Record<Locale, {
   eyebrow: string;
   title: string;
@@ -38,31 +13,37 @@ const copy: Record<Locale, {
   bio1: string;
   bio2: string;
   stackTitle: string;
-  currentlyTitle: string;
+  stackDescription: string;
   downloadCV: string;
   photoAlt: string;
+  experienceTitle: string;
+  experienceDescription: string;
 }> = {
   es: {
     eyebrow: "Sobre mí",
     title: "Josué García",
     subtitle: "Engineering Student & Developer",
     bio1: "Estudiante de Ingeniería en Ciencias de la Computación Integradas en Key Institute, El Salvador. Aprendo construyendo sistemas reales y documento cada etapa del camino.",
-    bio2: "Me motiva la intersección entre tecnología, aprendizaje y comunidad. Creo que documentar el proceso es tan valioso como el resultado.",
-    stackTitle: "Stack tecnológico",
-    currentlyTitle: "Actualmente",
+    bio2: "Actualmente realizo una pasantía híbrida en Impresos Múltiples, donde desarrollo soluciones web para procesos de producción. Creo que documentar el proceso es tan valioso como el resultado.",
+    stackTitle: "Lo que uso",
+    stackDescription: "Tecnologías y herramientas que me acompañan al construir y aprender. Explora cada categoría.",
     downloadCV: "Descargar CV",
     photoAlt: "Foto de Josué García",
+    experienceTitle: "Experiencia profesional",
+    experienceDescription: "Mi trabajo en desarrollo web, integración de APIs y plataformas empresariales.",
   },
   en: {
     eyebrow: "About",
     title: "Josué García",
     subtitle: "Engineering Student & Developer",
     bio1: "Engineering student in Integrated Computer Science at Key Institute, El Salvador. I learn by building real systems and document every step along the way.",
-    bio2: "I'm driven by the intersection of technology, learning, and community. I believe documenting the process is as valuable as the outcome.",
-    stackTitle: "Tech Stack",
-    currentlyTitle: "Currently",
+    bio2: "I'm currently completing a hybrid internship at Impresos Múltiples, developing web solutions for production processes. I believe documenting the process is as valuable as the outcome.",
+    stackTitle: "What I use",
+    stackDescription: "The technologies and tools I use to build and learn. Explore each category.",
     downloadCV: "Download CV",
     photoAlt: "Photo of Josué García",
+    experienceTitle: "Professional experience",
+    experienceDescription: "My work in web development, API integration, and enterprise platforms.",
   },
 };
 
@@ -146,12 +127,11 @@ export default async function AboutPage({
             </a>
 
             <a
-              href="https://drive.google.com/file/d/1Qik9JP5Z5bBuh-MAgDH5c7aGFzWgDy7Q/preview"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/Josue-Garcia-CV.pdf"
+              download
               className="rounded-md border border-(--border-color) bg-(--bg) px-4 py-2 text-xs font-semibold text-neutral-700 transition-colors hover:border-primary/40 hover:text-primary dark:text-neutral-300"
             >
-              {c.downloadCV} ↗
+              {c.downloadCV} ↓
             </a>
           </div>
         </div>
@@ -173,48 +153,11 @@ export default async function AboutPage({
             <p>{c.bio2}</p>
           </div>
 
-          {/* Currently studying */}
-          <div className="mt-8">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
-              {c.currentlyTitle}
-            </p>
-            <div className="space-y-2">
-              {currently.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-3 rounded-sm border border-(--border-color) bg-(--bg) px-4 py-3 transition-colors hover:border-primary/40"
-                >
-                  <img
-                    src={item.logo}
-                    alt={item.institution[locale]}
-                    className="h-12 w-12 shrink-0 object-contain"
-                  />
-                  <div>
-                    <p className="text-sm font-semibold text-neutral-900 transition-colors group-hover:text-primary dark:text-white">
-                      {item.program[locale]}
-                    </p>
-                    <p className="mt-0.5 text-xs text-neutral-500 dark:text-neutral-400">
-                      {item.institution[locale]} · {item.period[locale]}
-                    </p>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* ── CTA Buttons ─────────────────────────────────────────────── */}
+      {/* ── Projects CTA ────────────────────────────────────────────── */}
       <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
-        <Link
-          href="/journey"
-          className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-        >
-          {t("journey")}
-        </Link>
         <Link
           href="/projects"
           className="rounded-full border border-neutral-200 bg-(--bg) px-6 py-3 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
@@ -223,37 +166,29 @@ export default async function AboutPage({
         </Link>
       </div>
 
-      {/* ── Tech Stack ──────────────────────────────────────────────── */}
-      <div className="mt-20 border-t border-(--border-color) pt-16">
-        <p className="mb-10 text-center text-xs font-semibold uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
-          {c.stackTitle}
-        </p>
-
-        {/* 2×2 grid: [Frontend, Backend] / [Tools, AI] */}
-        <div className="grid gap-8 sm:grid-cols-2">
-          {techStack.map((group) => (
-            <div
-              key={group.id}
-              className="rounded-sm border border-(--border-color) bg-(--bg) p-6"
-            >
-              <p className="mb-5 text-xs font-semibold uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
-                {group.label[locale]}
-              </p>
-              <div className="flex flex-wrap gap-5">
-                {group.items.map((item) => (
-                  <StackIcon
-                    key={item.name}
-                    name={item.name}
-                    lightSrc={item.lightSrc}
-                    darkSrc={item.darkSrc}
-                    size={36}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
+      <section
+        id="experience"
+        aria-labelledby="experience-title"
+        className="mt-24 pt-8"
+      >
+        <div className="flex justify-center text-center">
+          <SectionHeader
+            id="experience-title"
+            title={c.experienceTitle}
+            description={c.experienceDescription}
+          />
         </div>
-      </div>
+        <div className="mt-10">
+          <ExperienceTimeline locale={locale} />
+        </div>
+      </section>
+
+      <section aria-labelledby="toolbox-title" className="mt-20 border-t border-(--border-color) pt-16">
+        <SectionHeader id="toolbox-title" title={c.stackTitle} description={c.stackDescription} />
+        <div className="mt-8">
+          <TechToolbox locale={locale} />
+        </div>
+      </section>
     </div>
   );
 }

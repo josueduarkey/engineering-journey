@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import SectionHeader from "@/components/shared/SectionHeader";
+import CertificationImage from "@/components/certifications/CertificationImage";
 import {
   certifications,
   certificationCategories,
@@ -23,6 +23,7 @@ const copy: Record<Locale, {
   empty: string; emptySub: string;
   prev: string; next: string; pageOf: string;
   sortAsc: string; sortDesc: string;
+  loadingImage: string; imageError: string;
 }> = {
   es: {
     eyebrow: "Certificaciones",
@@ -35,6 +36,8 @@ const copy: Record<Locale, {
     pageOf: "de",
     sortAsc: "Más antiguos primero",
     sortDesc: "Más recientes primero",
+    loadingImage: "Cargando diploma",
+    imageError: "No se pudo cargar la imagen del diploma.",
   },
   en: {
     eyebrow: "Certifications",
@@ -47,6 +50,8 @@ const copy: Record<Locale, {
     pageOf: "of",
     sortAsc: "Oldest first",
     sortDesc: "Newest first",
+    loadingImage: "Loading certificate",
+    imageError: "The certificate image could not be loaded.",
   },
 };
 
@@ -90,7 +95,7 @@ export default async function CertificationsPage({
 
   return (
     <div className="mx-auto max-w-[1280px] px-6 py-16 md:py-24">
-      <SectionHeader eyebrow={t("achievements")} title={c.title} description={c.description} />
+      <SectionHeader as="h1" eyebrow={t("achievements")} title={c.title} description={c.description} />
 
       {/* ── Filters + sort row ───────────────────────────────────────────── */}
       <div className="mt-10 flex flex-wrap items-center justify-between gap-3">
@@ -167,20 +172,18 @@ export default async function CertificationsPage({
             {paged.map((cert) => {
               const name = cert.name[locale];
               const card = (
-                <div className="group flex flex-col overflow-hidden rounded-sm border border-(--border-color) bg-(--bg) transition-shadow hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
-                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900">
-                    <Image
-                      src={cert.image}
-                      alt={name}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    />
-                  </div>
+                <article className="group flex flex-col overflow-hidden rounded-sm border border-(--border-color) bg-(--bg) transition-shadow hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
+                  <CertificationImage
+                    key={cert.image}
+                    src={cert.image}
+                    alt={name}
+                    loadingLabel={c.loadingImage}
+                    errorLabel={c.imageError}
+                  />
                   <div className="p-4">
-                    <p className="text-sm font-semibold leading-snug text-neutral-900 dark:text-white">
+                    <h2 className="text-sm font-semibold leading-snug text-neutral-900 dark:text-white">
                       {name}
-                    </p>
+                    </h2>
                     <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
                       {cert.issuer}
                     </p>
@@ -188,7 +191,7 @@ export default async function CertificationsPage({
                       {formatCertDate(cert.date, locale)}
                     </p>
                   </div>
-                </div>
+                </article>
               );
 
               return cert.url ? (

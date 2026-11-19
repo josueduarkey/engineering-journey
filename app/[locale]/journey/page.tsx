@@ -3,31 +3,41 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import Timeline from "@/components/journey/Timeline";
 import { journeyMilestones, type Locale } from "@/lib/content";
 
-const ogImage = `/og?title=Trayectoria&description=Timeline+de+crecimiento+acad%C3%A9mico%2C+t%C3%A9cnico+y+personal+de+Josu%C3%A9+Garc%C3%ADa.`;
-
-export const metadata: Metadata = {
-  title: "Trayectoria",
-  description: "Timeline de crecimiento académico, técnico y personal de Josué García — desde la infancia hasta Key Institute.",
-  openGraph: {
-    title: "Trayectoria — Josué García",
-    description: "Timeline de crecimiento académico, técnico y personal.",
-    images: [{ url: ogImage, width: 1200, height: 630 }],
-  },
-  twitter: { card: "summary_large_image", title: "Trayectoria — Josué García", images: [ogImage] },
-};
-
 const copy: Record<Locale, { eyebrow: string; title: string; description: string }> = {
   es: {
-    eyebrow: "Trayectoria",
-    title: "Un camino que se sigue construyendo",
-    description: "Aprendiendo, construyendo y mejorando en cada etapa del camino.",
+    eyebrow: "Educación",
+    title: "Mi formación académica",
+    description: "Las etapas de mi educación, desde mis primeros aprendizajes hasta la ingeniería en Key Institute.",
   },
   en: {
-    eyebrow: "Journey",
-    title: "A journey built in stages.",
-    description: "Each stage added something different: skills, character, judgment. Here is the record.",
+    eyebrow: "Education",
+    title: "My education",
+    description: "The stages of my education, from my earliest learning experiences to engineering at Key Institute.",
   },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const c = copy[locale];
+  const title = `${c.eyebrow} — Josué García`;
+  const ogImage = `/og?title=${encodeURIComponent(c.eyebrow)}&description=${encodeURIComponent(c.description)}`;
+
+  return {
+    title: c.eyebrow,
+    description: c.description,
+    alternates: { canonical: `/${locale}/journey` },
+    openGraph: {
+      title,
+      description: c.description,
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+    },
+    twitter: { card: "summary_large_image", title, images: [ogImage] },
+  };
+}
 
 export default async function JourneyPage({
   params,
@@ -39,7 +49,7 @@ export default async function JourneyPage({
 
   return (
     <div className="mx-auto max-w-[1280px] px-6 py-16 md:py-24">
-      <SectionHeader eyebrow={c.eyebrow} title={c.title} description={c.description} />
+      <SectionHeader as="h1" eyebrow={c.eyebrow} title={c.title} description={c.description} />
       <div className="mt-16">
         <Timeline milestones={journeyMilestones} locale={locale} />
       </div>

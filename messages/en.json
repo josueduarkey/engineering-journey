@@ -1,14 +1,18 @@
 {
   "Navigation": {
+    "navigationLabel": "Main navigation",
+    "homeLabel": "Josué García — Home",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
     "about": "About",
-    "journey": "Journey",
+    "journey": "Education",
     "projects": "Projects",
     "blog": "Blog",
     "achievements": "Certifications",
     "contact": "Contact"
   },
   "Footer": {
-    "tagline": "Building systems. Documenting growth. Sharing the journey.",
+    "tagline": "Every project is a chance to learn and contribute.",
     "quickLinks": "Quick Links",
     "connect": "Connect",
     "copyright": "© 2026 Josué García. All rights reserved."

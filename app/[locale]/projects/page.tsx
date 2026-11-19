@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import SectionHeader from "@/components/shared/SectionHeader";
 import ProjectCard from "@/components/projects/ProjectCard";
+import ProfessionalProjects from "@/components/projects/ProfessionalProjects";
+import VentureProjects from "@/components/projects/VentureProjects";
 import { projectGroups, getLocaleValue, type Locale } from "@/lib/content";
 import { getAllProjects } from "@/lib/projects";
 
@@ -51,12 +53,15 @@ export default async function ProjectsPage({
   return (
     <div className="mx-auto max-w-[1280px] px-6 py-16 md:py-24">
       <SectionHeader
+        as="h1"
         eyebrow={t("projects")}
         title={c.title}
         description={c.description}
       />
 
       <div className="mt-16 space-y-24">
+        <VentureProjects locale={locale} />
+        <ProfessionalProjects locale={locale} />
         {projectGroups.map((group) => {
           const groupProjects = group.slugs
             .map((slug) => allProjects.find((p) => p.slug === slug))
@@ -66,8 +71,8 @@ export default async function ProjectsPage({
           const groupDescription = getLocaleValue(group.description, locale);
 
           return (
-            <section key={group.anchor} id={group.anchor} className="scroll-mt-8">
-              <SectionHeader eyebrow={groupTitle} title={groupDescription} />
+            <section key={group.anchor} id={group.anchor} aria-labelledby={`${group.anchor}-title`} className="scroll-mt-8">
+              <SectionHeader id={`${group.anchor}-title`} title={groupTitle} description={groupDescription} />
 
               {groupProjects.length > 0 ? (
                 <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

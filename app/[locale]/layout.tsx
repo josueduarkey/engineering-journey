@@ -4,7 +4,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { ThemeProvider } from "@/components/layout/Providers";
-import Sidebar from "@/components/navigation/Sidebar";
+import Navbar from "@/components/navigation/Navbar";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
@@ -35,15 +35,10 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider messages={messages}>
       <ThemeProvider>
-        <div className="flex min-h-screen">
-          <Sidebar />
-          {/* Content column — offset on mobile for the fixed top bar */}
-          <div className="flex min-w-0 flex-1 flex-col pt-14 lg:pt-0">
-            <main className="dot-pattern flex-1">
-              {children}
-            </main>
-            <Footer />
-          </div>
+        <div className="flex min-h-screen min-w-0 flex-col">
+          <Navbar />
+          <main className="dot-pattern flex-1">{children}</main>
+          <Footer />
         </div>
       </ThemeProvider>
     </NextIntlClientProvider>

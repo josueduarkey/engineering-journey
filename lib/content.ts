@@ -64,24 +64,6 @@ export const projectGroups: ProjectGroup[] = [
     },
     slugs: [],
   },
-  {
-    anchor: "ina",
-    title: { es: "Instituto Nacional de Aguilares", en: "Instituto Nacional de Aguilares" },
-    description: {
-      es: "Proyectos y trabajos del bachillerato en Ciencias y Letras.",
-      en: "Projects and work from the high school diploma in Science and Arts.",
-    },
-    slugs: [],
-  },
-  {
-    anchor: "infancia",
-    title: { es: "Infancia", en: "Childhood" },
-    description: {
-      es: "Primeros proyectos de exploración digital y curiosidad creativa.",
-      en: "First digital exploration projects and creative curiosity.",
-    },
-    slugs: [],
-  },
 ];
 
 // ─── Journey milestones (newest → oldest) ─────────────────────────────────────
@@ -113,7 +95,7 @@ export const journeyMilestones: JourneyMilestone[] = [
   },
   {
     institution: { es: "Universidad Don Bosco", en: "Universidad Don Bosco" },
-    year: { es: "Enero 2024 - Junio 2026", en: "January 2024 - June 2026" },
+    year: { es: "Enero 2024 - Noviembre 2025", en: "January 2024 - November 2025" },
     link: "https://www.udb.edu.sv/udb/",
     title: {
       es: "Técnico en Ingeniería en Computación",
@@ -169,7 +151,6 @@ export const journeyMilestones: JourneyMilestone[] = [
       { src: "/computer-science-logo.svg", alt: { es: "Símbolo de aprendizaje técnico temprano", en: "Early technical learning symbol" } },
       { src: "/josueduardev.png", alt: { es: "Retrato de contexto del Instituto Nacional de Aguilares", en: "Context portrait from Instituto Nacional de Aguilares" } },
     ],
-    projectsHref: "/projects#ina",
   },
   {
     institution: { es: "Infancia", en: "Childhood" },
@@ -188,7 +169,6 @@ export const journeyMilestones: JourneyMilestone[] = [
       { src: "/computer-science-logo.svg", alt: { es: "Símbolo de aprendizaje temprano", en: "Early learning symbol" } },
       { src: "/josueduardev.png", alt: { es: "Retrato de contexto personal", en: "Personal context portrait" } },
     ],
-    projectsHref: "/projects#infancia",
   },
 ];
 

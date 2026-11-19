@@ -105,7 +105,7 @@ export default function Footer() {
                 </span>
               </a>
               <a
-                href="https://drive.google.com/file/d/1Qik9JP5Z5bBuh-MAgDH5c7aGFzWgDy7Q/preview"
+                href="/Josue-Garcia-CV.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="CV"

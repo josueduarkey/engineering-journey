@@ -122,7 +122,7 @@ export default async function BlogPage({
 
   return (
     <div className="mx-auto max-w-[1280px] px-6 py-16 md:py-24">
-      <SectionHeader eyebrow={c.eyebrow} title={c.title} description={c.description} />
+      <SectionHeader as="h1" eyebrow={c.eyebrow} title={c.title} description={c.description} />
 
       <div className="mt-16">
         {posts.length === 0 ? (
