@@ -15,8 +15,9 @@ export default function PortfolioProjectDetail({ project, projects, locale }: {
   const es = locale === "es";
   return (
     <ViewTransition enter="project-enter" exit="project-exit">
-      <article className="mx-auto max-w-[1152px] px-6 py-12 md:py-20">
+      <article className="mx-auto max-w-[1152px] px-6 pb-12 pt-6 md:pb-20 md:pt-8">
         <Link href="/projects" transitionTypes={["project-back"]} className="inline-flex min-h-11 items-center gap-2 text-sm text-neutral-500"><ArrowLeft size={16} />{es ? "Todos los proyectos" : "All projects"}</Link>
+        {project.gallery.length > 0 && <div className="mt-6"><ProjectImageSlider key={project.slug} images={project.gallery} locale={locale} slug={project.slug} title={project.title[locale]} /></div>}
         <header className="mb-10 mt-8">
           <p className="editorial-label">{project.category[locale]}{project.company ? ` / ${project.company}` : ""}</p>
           <div className="project-title-row">
@@ -37,7 +38,6 @@ export default function PortfolioProjectDetail({ project, projects, locale }: {
           </section>
           <ul className="mt-6 max-w-4xl space-y-4 text-sm leading-7 text-neutral-600 dark:text-neutral-400">{project.highlights[locale].map((highlight) => <li key={highlight} className="flex gap-4"><span aria-hidden="true" className="text-primary">↗</span><span>{highlight}</span></li>)}</ul>
         </section>
-        <ProjectImageSlider key={project.slug} images={project.gallery} locale={locale} slug={project.slug} title={project.title[locale]} />
         <ProjectPager projects={projects} slug={project.slug} locale={locale} />
       </article>
     </ViewTransition>

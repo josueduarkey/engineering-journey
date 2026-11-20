@@ -88,7 +88,7 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <ViewTransition enter="project-enter" exit="project-exit">
-    <article className="mx-auto max-w-275 px-6 py-16 md:py-24">
+    <article className="mx-auto max-w-275 px-6 pb-16 pt-6 md:pb-24 md:pt-8">
       {/* Back */}
       <Link
         href="/projects" transitionTypes={["project-back"]}
@@ -97,6 +97,8 @@ export default async function ProjectDetailPage({ params }: Props) {
         <ArrowLeft size={14} />
         {c.back}
       </Link>
+
+      {project.coverImage && <div className="mt-6"><ProjectImageSlider key={slug} slug={slug} title={title} locale={locale} images={[{ src: project.coverImage, alt: project.title }]} /></div>}
 
       {/* Header */}
       <header className="mt-8 border-b border-(--border-color) pb-10">
@@ -148,7 +150,6 @@ export default async function ProjectDetailPage({ params }: Props) {
           <ul className="mt-3 flex flex-wrap gap-2">{project.technologies.map((technology) => <li key={technology}><TechnologyChip name={technology} /></li>)}</ul>
         </section>
       </header>
-      {project.coverImage && <div className="mt-8"><ProjectImageSlider key={slug} slug={slug} title={title} locale={locale} images={[{ src: project.coverImage, alt: project.title }]} /></div>}
 
       {/* Body: MDX content + sidebar */}
       <div className="grid gap-12 py-12 lg:grid-cols-[1fr_260px]">
