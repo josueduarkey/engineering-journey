@@ -1,3 +1,9 @@
+import { ViewTransition } from "react";
+import { portfolioProjects } from "@/lib/portfolio-projects";
+import PortfolioProjectDetail from "@/components/projects/PortfolioProjectDetail";
+import ProjectPager from "@/components/projects/ProjectPager";
+import ProjectImageSlider from "@/components/projects/ProjectImageSlider";
+import TechnologyChip from "@/components/shared/TechnologyChip";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ExternalLink, ArrowLeft } from "lucide-react";
@@ -12,7 +18,8 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const project = getProjectMeta(slug);
+  const portfolioProject = portfolioProjects.find((project) => project.slug === slug);
+  const project = portfolioProject ?? getProjectMeta(slug);
   if (!project) return {};
   const title = getLocaleValue(project.title, locale);
   const description = getLocaleValue(project.summary, locale);
@@ -20,6 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
+    alternates: { canonical: `/${locale}/projects/${slug}` },
     openGraph: {
       title,
       description,
@@ -31,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const projects = getAllProjects();
+  const projects = [...portfolioProjects, ...getAllProjects()];
   const locales: Locale[] = ["es", "en"];
   return locales.flatMap((locale) =>
     projects.map((p) => ({ locale, slug: p.slug }))
@@ -65,6 +73,9 @@ const copy: Record<Locale, {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { locale, slug } = await params;
+  const projects = [...portfolioProjects, ...getAllProjects()];
+  const portfolioProject = portfolioProjects.find((project) => project.slug === slug);
+  if (portfolioProject) return <PortfolioProjectDetail project={portfolioProject} projects={projects} locale={locale} />;
   const project = getProjectMeta(slug);
   if (!project) notFound();
 
@@ -76,10 +87,11 @@ export default async function ProjectDetailPage({ params }: Props) {
   const stage = getLocaleValue(project.stage, locale);
 
   return (
+    <ViewTransition enter="project-enter" exit="project-exit">
     <article className="mx-auto max-w-275 px-6 py-16 md:py-24">
       {/* Back */}
       <Link
-        href="/projects"
+        href="/projects" transitionTypes={["project-back"]}
         className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 transition-colors hover:text-primary dark:text-neutral-400"
       >
         <ArrowLeft size={14} />
@@ -130,7 +142,13 @@ export default async function ProjectDetailPage({ params }: Props) {
             )}
           </div>
         )}
+        {!project.repository && !project.demo && <p className="mt-5 text-sm text-neutral-500">{locale === "es" ? "Proyecto en fase de concepto; todavía sin enlace público." : "Concept-stage project; no public website yet."}</p>}
+        <section aria-labelledby="project-technologies-title" className="mt-7">
+          <h2 id="project-technologies-title" className="editorial-label">{c.technologies}</h2>
+          <ul className="mt-3 flex flex-wrap gap-2">{project.technologies.map((technology) => <li key={technology}><TechnologyChip name={technology} /></li>)}</ul>
+        </section>
       </header>
+      {project.coverImage && <div className="mt-8"><ProjectImageSlider key={slug} slug={slug} title={title} locale={locale} images={[{ src: project.coverImage, alt: project.title }]} /></div>}
 
       {/* Body: MDX content + sidebar */}
       <div className="grid gap-12 py-12 lg:grid-cols-[1fr_260px]">
@@ -144,12 +162,7 @@ export default async function ProjectDetailPage({ params }: Props) {
 
         {/* Sticky sidebar */}
         <aside className="h-fit space-y-6 rounded-sm border border-(--border-color) bg-(--bg) p-6 lg:sticky lg:top-24">
-          <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-neutral-400 dark:text-neutral-500">
-              {c.technologies}
-            </p>
-            <TagList tags={project.technologies} />
-          </div>
+
 
           {project.powerSkills.length > 0 && (
             <div>
@@ -179,13 +192,15 @@ export default async function ProjectDetailPage({ params }: Props) {
       {/* Footer back */}
       <div className="border-t border-(--border-color) pt-8">
         <Link
-          href="/projects"
+          href="/projects" transitionTypes={["project-back"]}
           className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 transition-colors hover:text-primary dark:text-neutral-400"
         >
           <ArrowLeft size={14} />
           {c.back}
         </Link>
       </div>
+      <ProjectPager projects={projects} slug={slug} locale={locale} />
     </article>
+    </ViewTransition>
   );
 }

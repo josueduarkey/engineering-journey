@@ -1,129 +1,15 @@
-import { useTranslations } from "next-intl";
+import { getLocale } from "next-intl/server";
+import { ArrowUpRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import CVIcon from "@/components/layout/CVIcon";
 
-const footerLinks = [
-  { key: "about", href: "/about" },
-  { key: "journey", href: "/journey" },
-  { key: "projects", href: "/projects" },
-  { key: "blog", href: "/blog" },
-  { key: "achievements", href: "/certifications" },
-  { key: "contact", href: "/contact" },
-] as const;
-
-export default function Footer() {
-  const tNav = useTranslations("Navigation");
-  const t = useTranslations("Footer");
-
+export default async function Footer() {
+  const es = (await getLocale()) === "es";
   return (
-    <footer className="border-t border-[var(--border-color)] bg-[var(--bg)]">
-      <div className="mx-auto max-w-[1280px] px-6 py-12">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
-          {/* Brand */}
-          <div>
-            <p className="mb-3 text-sm font-semibold text-primary ">
-              Josueduar<span className=" text-neutral-900 dark:text-white"> dev</span>
-            </p>
-            <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">
-              {t("tagline")}
-            </p>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
-              {t("quickLinks")}
-            </p>
-            <nav aria-label="Footer navigation" className="flex flex-col gap-2">
-              {footerLinks.map(({ key, href }) => (
-                <Link
-                  key={key}
-                  href={href}
-                  className="text-sm text-neutral-500 transition-colors hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
-                >
-                  {tNav(key)}
-                </Link>
-              ))}
-            </nav>
-          </div>
-
-          {/* Social */}
-          <div>
-            <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
-              {t("connect")}
-            </p>
-            <div className="flex gap-2">
-              <a
-                href="https://github.com/josueduarkey"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="group relative flex h-9 w-9 items-center justify-center rounded-md bg-white text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
-              >
-                <img
-                  src="/GitHub_light.svg"
-                  alt="GitHub logo"
-                  className="h-5 w-5 dark:hidden"
-                />
-                <img
-                  src="/GitHub_dark.svg"
-                  alt="GitHub logo"
-                  className="hidden h-5 w-5 dark:block"
-                />
-                <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 rounded-md bg-neutral-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 dark:bg-white dark:text-neutral-900">
-                  GitHub
-                </span>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/josueduardogarcia/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="group relative flex h-9 w-9 items-center justify-center rounded-md bg-white text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
-              >
-                <img
-                  src="/linkedin.svg"
-                  alt="LinkedIn logo"
-                  className="h-5 w-5"
-                />
-                <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 rounded-md bg-neutral-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 dark:bg-white dark:text-neutral-900">
-                  LinkedIn
-                </span>
-              </a>
-              <a
-                href="mailto:josueduardo.dev@gmail.com"
-                aria-label="Email"
-                className="group relative flex h-9 w-9 items-center justify-center rounded-md text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
-              >
-                <img
-                  src="/gmail.svg"
-                  alt="Gmail logo"
-                  className="h-5 w-5"
-                />
-                <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 rounded-md bg-neutral-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 dark:bg-white dark:text-neutral-900">
-                  Email
-                </span>
-              </a>
-              <a
-                href="/Josue-Garcia-CV.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="CV"
-                className="group relative flex h-9 w-9 items-center justify-center rounded-md bg-white text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:bg-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
-              >
-                <CVIcon />
-                <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 rounded-md bg-neutral-900 px-2 py-1 text-xs font-medium text-white opacity-0 shadow-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 dark:bg-white dark:text-neutral-900">
-                  CV
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="mb-6 border-t border-[var(--border-color)] pt-6 text-center">
-        <p className="text-xs text-neutral-700 dark:text-neutral-500">
-          {t("copyright")}
-        </p>
+    <footer className="portfolio-footer">
+      <div className="footer-inner">
+        <div className="footer-invitation"><div><p className="editorial-label">{es ? "EL PRÓXIMO PROYECTO" : "THE NEXT PROJECT"}</p><h2>{es ? <>¿Construimos<br />algo <em>juntos?</em></> : <>Let&apos;s build<br />something <em>together.</em></>}</h2></div><Link href="/contact" className="footer-contact" aria-label={es ? "Contactar a Josué" : "Contact Josué"}><ArrowUpRight size={42} strokeWidth={1.3} /></Link></div>
+        <div className="footer-details"><a href="mailto:josueduardo.dev@gmail.com">josueduardo.dev@gmail.com<ArrowUpRight size={15} /></a><div><a href="https://github.com/josueduarkey" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/josueduardogarcia/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="/Josue-Garcia-CV.pdf" target="_blank" rel="noopener noreferrer">CV ↗</a></div></div>
+        <div className="footer-bottom"><span>© {new Date().getFullYear()} Josué García</span><span>{es ? "Hecho con intención, desde El Salvador." : "Made with intention, from El Salvador."}</span><a href="#">{es ? "Volver arriba ↑" : "Back to top ↑"}</a></div>
       </div>
     </footer>
   );

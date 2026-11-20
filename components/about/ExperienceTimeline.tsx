@@ -151,7 +151,8 @@ export default function ExperienceTimeline({ locale }: { locale: Locale }) {
               </motion.div>
               <div className="pt-6">
                 <Link
-                  href={`/projects#${experience.id}`}
+                  href={`/projects/${experience.id}`}
+                  transitionTypes={["project-forward"]}
                   aria-label={`${c.projectsAt} ${experience.company}`}
                   className="inline-flex min-h-11 items-center gap-2 rounded text-sm font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                 >

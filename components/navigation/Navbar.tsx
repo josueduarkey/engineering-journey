@@ -1,9 +1,10 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { ChevronLeft, ChevronRight, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import LanguageSwitcher from "./LanguageSwitcher";
 
@@ -28,6 +29,7 @@ export default function Navbar() {
 
   return (
     <header
+      data-intro-navigation={pathname === "/about" ? "pending" : undefined}
       className="sticky top-0 z-40 shrink-0 border-b border-(--border-color) bg-(--bg)/95 backdrop-blur-md"
       onKeyDown={(event) => {
         if (event.key === "Escape" && open) {
@@ -45,18 +47,13 @@ export default function Navbar() {
           href="/about"
           onClick={() => setOpen(false)}
           aria-label={t("homeLabel")}
-          className="w-fit shrink-0 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          className="flex min-h-11 w-fit shrink-0 items-center rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
         >
-          <div className="flex items-center gap-0.5 transition-transform duration-200 ease-out hover:scale-105">
-            <ChevronLeft size={18} className="-mr-1.5 text-neutral-400 dark:text-neutral-500" />
-            <span className="text-lg font-semibold italic text-primary">Josueduar</span>
-            <span className="text-lg font-semibold italic text-neutral-900 dark:text-white">dev</span>
-            <ChevronRight size={18} className="-ml-0.5 text-neutral-400 dark:text-neutral-500" />
-          </div>
+          <Image src="/josueduardev.svg" alt="Josué García — <JE>" width={132} height={48} className="h-8 w-auto" />
         </Link>
 
         {/* Desktop nav links */}
-        <div className="hidden items-center gap-0 lg:flex">
+        <div className="hidden items-center gap-1.5 lg:flex">
           {navLinks.map(({ key, href }) => (
             <Link
               key={key}

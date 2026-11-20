@@ -1,3 +1,5 @@
+import { ViewTransition } from "react";
+import LegacyProjectRedirect from "@/components/projects/LegacyProjectRedirect";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import SectionHeader from "@/components/shared/SectionHeader";
@@ -27,14 +29,14 @@ const copy: Record<Locale, {
   comingSoonSub: string;
 }> = {
   es: {
-    title: "Proyectos documentados como casos de aprendizaje.",
-    description: "Cada proyecto cuenta el problema, el proceso, las decisiones y las lecciones aprendidas.",
+    title: "Ideas que ya están en marcha.",
+    description: "Productos propios y soluciones empresariales. Explora qué construí, cómo funciona y en qué aporté.",
     comingSoon: "Próximamente",
     comingSoonSub: "Los proyectos de esta etapa se documentarán a medida que avance la carrera.",
   },
   en: {
-    title: "Projects documented as learning case studies.",
-    description: "Each project explains the problem, process, decisions, and lessons learned.",
+    title: "Ideas already in motion.",
+    description: "Independent products and enterprise solutions. Explore what I built, how it works, and how I contributed.",
     comingSoon: "Coming soon",
     comingSoonSub: "Projects from this stage will be documented as the degree progresses.",
   },
@@ -51,7 +53,9 @@ export default async function ProjectsPage({
   const allProjects = getAllProjects();
 
   return (
+    <ViewTransition enter="project-enter" exit="project-exit">
     <div className="mx-auto max-w-[1280px] px-6 py-16 md:py-24">
+      <LegacyProjectRedirect />
       <SectionHeader
         as="h1"
         eyebrow={t("projects")}
@@ -95,5 +99,6 @@ export default async function ProjectsPage({
         })}
       </div>
     </div>
+    </ViewTransition>
   );
 }

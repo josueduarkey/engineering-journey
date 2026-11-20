@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -36,7 +37,7 @@ export default async function LocaleLayout({
     <NextIntlClientProvider messages={messages}>
       <ThemeProvider>
         <div className="flex min-h-screen min-w-0 flex-col">
-          <Navbar />
+          <ViewTransition name="site-navigation" default="none"><Navbar /></ViewTransition>
           <main className="dot-pattern flex-1">{children}</main>
           <Footer />
         </div>

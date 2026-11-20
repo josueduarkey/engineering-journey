@@ -28,7 +28,7 @@ export default function ProjectCard({ project, locale }: ProjectCardProps) {
           />
         </div>
         <h3 className="text-xl font-semibold text-neutral-900 dark:text-white">
-          <Link href={`/projects/${project.slug}`}>{title}</Link>
+          <Link href={`/projects/${project.slug}`} transitionTypes={["project-forward"]}>{title}</Link>
         </h3>
         <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
           {summary}

@@ -1,49 +1,21 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
+import PortfolioIntro from "@/components/home/PortfolioIntro";
 import TechToolbox from "@/components/about/TechToolbox";
 import ExperienceTimeline from "@/components/about/ExperienceTimeline";
 import SectionHeader from "@/components/shared/SectionHeader";
 import type { Locale } from "@/lib/content";
-const copy: Record<Locale, {
-  eyebrow: string;
-  title: string;
-  subtitle: string;
-  bio1: string;
-  bio2: string;
-  stackTitle: string;
-  stackDescription: string;
-  downloadCV: string;
-  photoAlt: string;
-  experienceTitle: string;
-  experienceDescription: string;
-}> = {
+const copy = {
   es: {
-    eyebrow: "Sobre mí",
-    title: "Josué García",
-    subtitle: "Engineering Student & Developer",
-    bio1: "Estudiante de Ingeniería en Ciencias de la Computación Integradas en Key Institute, El Salvador. Aprendo construyendo sistemas reales y documento cada etapa del camino.",
-    bio2: "Actualmente realizo una pasantía híbrida en Impresos Múltiples, donde desarrollo soluciones web para procesos de producción. Creo que documentar el proceso es tan valioso como el resultado.",
-    stackTitle: "Lo que uso",
-    stackDescription: "Tecnologías y herramientas que me acompañan al construir y aprender. Explora cada categoría.",
-    downloadCV: "Descargar CV",
-    photoAlt: "Foto de Josué García",
-    experienceTitle: "Experiencia profesional",
-    experienceDescription: "Mi trabajo en desarrollo web, integración de APIs y plataformas empresariales.",
+    stackTitle: "Las herramientas detrás de las ideas.",
+    stackDescription: "Mi stack de desarrollo. Explora las tecnologías que uso para construir y conectar productos.",
+    experienceTitle: "Experiencia en problemas reales.",
+    experienceDescription: "Desarrollo web, integración de APIs y plataformas empresariales. Este es mi recorrido y lo que he aportado en cada etapa.",
   },
   en: {
-    eyebrow: "About",
-    title: "Josué García",
-    subtitle: "Engineering Student & Developer",
-    bio1: "Engineering student in Integrated Computer Science at Key Institute, El Salvador. I learn by building real systems and document every step along the way.",
-    bio2: "I'm currently completing a hybrid internship at Impresos Múltiples, developing web solutions for production processes. I believe documenting the process is as valuable as the outcome.",
-    stackTitle: "What I use",
-    stackDescription: "The technologies and tools I use to build and learn. Explore each category.",
-    downloadCV: "Download CV",
-    photoAlt: "Photo of Josué García",
-    experienceTitle: "Professional experience",
-    experienceDescription: "My work in web development, API integration, and enterprise platforms.",
+    stackTitle: "The tools behind the ideas.",
+    stackDescription: "My development stack. Explore the technologies I use to build and connect products.",
+    experienceTitle: "Experience with real problems.",
+    experienceDescription: "Web development, API integration, and enterprise platforms. My journey and contributions at every stage.",
   },
 };
 
@@ -55,7 +27,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const title = locale === "es" ? "Sobre mí" : "About";
   const description = locale === "es"
-    ? "Josué García — Engineering Student & Developer en Key Institute, El Salvador. Aprendo construyendo sistemas reales y documento cada etapa del camino."
+    ? "Josué García, desarrollador web y estudiante de ingeniería. Aplicaciones, integraciones empresariales y productos propios: FocuMinds, Spotmi y TelMoney."
     : "Josué García — Engineering Student & Developer at Key Institute, El Salvador. I learn by building real systems and document every step along the way.";
   const ogTitle = locale === "es" ? "Sobre mí — Josué García" : "About — Josué García";
   const ogDescription = locale === "es"
@@ -82,98 +54,21 @@ export default async function AboutPage({
 }) {
   const { locale } = await params;
   const c = copy[locale];
-  const t = await getTranslations("Navigation");
 
   return (
-    <div className="mx-auto max-w-[1280px] px-6 py-16 md:py-24">
+    <div className="mx-auto max-w-[1280px] px-6 pb-16 pt-8 md:pb-24 md:pt-10">
 
-      {/* ── Hero ────────────────────────────────────────────────────── */}
-      <div className="grid gap-12 lg:grid-cols-[260px_1fr] lg:gap-16">
-
-        {/* Photo column */}
-        <div className="flex flex-col items-center gap-6 lg:items-start">
-          <div className="relative h-64 w-64 overflow-hidden rounded-2xl border border-(--border-color) lg:w-full lg:h-72">
-            <Image
-              src="/josue_garcia.jpg"
-              alt={c.photoAlt}
-              fill
-              className="object-cover object-top"
-              priority
-              sizes="(max-width: 1024px) 256px, 260px"
-            />
-          </div>
-
-          {/* Social links */}
-          <div className="flex flex-wrap items-center gap-2">
-            <a
-              href="https://github.com/josueduarkey"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              className="flex h-9 w-9 items-center justify-center rounded-md border border-(--border-color) bg-(--bg) transition-colors hover:border-primary/40"
-            >
-              <img src="/GitHub_light.svg" className="h-4 w-4 dark:hidden" alt="GitHub" />
-              <img src="/GitHub_dark.svg" className="hidden h-4 w-4 dark:block" alt="GitHub" />
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/josueduardogarcia/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="flex h-9 w-9 items-center justify-center rounded-md border border-(--border-color) bg-(--bg) transition-colors hover:border-primary/40"
-            >
-              <img src="/linkedin.svg" className="h-4 w-4" alt="LinkedIn" />
-            </a>
-
-            <a
-              href="/Josue-Garcia-CV.pdf"
-              download
-              className="rounded-md border border-(--border-color) bg-(--bg) px-4 py-2 text-xs font-semibold text-neutral-700 transition-colors hover:border-primary/40 hover:text-primary dark:text-neutral-300"
-            >
-              {c.downloadCV} ↓
-            </a>
-          </div>
-        </div>
-
-        {/* Info column */}
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-            {c.eyebrow}
-          </p>
-          <h1 className="mt-2 text-4xl font-bold tracking-tight text-neutral-900 dark:text-white md:text-5xl">
-            {c.title}
-          </h1>
-          <p className="mt-2 text-lg font-medium text-neutral-500 dark:text-neutral-400">
-            {c.subtitle}
-          </p>
-
-          <div className="mt-6 space-y-4 text-base leading-relaxed text-neutral-600 dark:text-neutral-400">
-            <p>{c.bio1}</p>
-            <p>{c.bio2}</p>
-          </div>
-
-        </div>
-      </div>
-
-      {/* ── Projects CTA ────────────────────────────────────────────── */}
-      <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
-        <Link
-          href="/projects"
-          className="rounded-full border border-neutral-200 bg-(--bg) px-6 py-3 text-sm font-semibold text-neutral-700 transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
-        >
-          {t("projects")}
-        </Link>
-      </div>
+      <PortfolioIntro locale={locale} />
 
       <section
         id="experience"
         aria-labelledby="experience-title"
-        className="mt-24 pt-8"
+        className="experience-section"
       >
-        <div className="flex justify-center text-center">
+        <div className="section-heading-row">
           <SectionHeader
             id="experience-title"
+            eyebrow={locale === "es" ? "03 / EXPERIENCIA PROFESIONAL" : "03 / PROFESSIONAL EXPERIENCE"}
             title={c.experienceTitle}
             description={c.experienceDescription}
           />
@@ -184,7 +79,7 @@ export default async function AboutPage({
       </section>
 
       <section aria-labelledby="toolbox-title" className="mt-20 border-t border-(--border-color) pt-16">
-        <SectionHeader id="toolbox-title" title={c.stackTitle} description={c.stackDescription} />
+        <SectionHeader id="toolbox-title" eyebrow={locale === "es" ? "04 / HERRAMIENTAS" : "04 / TOOLS"} title={c.stackTitle} description={c.stackDescription} />
         <div className="mt-8">
           <TechToolbox locale={locale} />
         </div>

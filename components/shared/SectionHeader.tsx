@@ -20,7 +20,7 @@ export default function SectionHeader({
           {eyebrow}
         </p>
       ) : null}
-      <Heading id={id} className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white md:text-4xl">
+      <Heading id={id} className="text-3xl font-medium tracking-[-0.045em] text-neutral-900 dark:text-white md:text-4xl">
         {title}
       </Heading>
       {description ? (
