@@ -38,6 +38,7 @@ export default function AsciiSignature() {
     let frame = 0;
     let lastTime = -100;
     let points: { x: number; y: number; bit: string; seed: number }[] = [];
+    let stars: { x: number; y: number; radius: number; opacity: number; phase: number; warm: boolean }[] = [];
 
     const prepare = () => {
       width = canvas.clientWidth;
@@ -47,6 +48,26 @@ export default function AsciiSignature() {
       canvas.width = Math.round(width * ratio);
       canvas.height = Math.round(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      // Stable positions keep resizing from randomly rearranging the night sky.
+      let seed = 4271;
+      const random = () => {
+        seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+        return seed / 4294967296;
+      };
+      stars = Array.from({ length: Math.min(520, Math.max(70, Math.round(width * height / 4500))) }, () => {
+        const x = random() * width;
+        const y = random() * height;
+        const brightness = random();
+        // Leave quieter space around the binary wordmark.
+        const centerFade = Math.abs(y / height - 0.5) < 0.16 ? 0.6 : 1;
+        return {
+          x, y,
+          radius: brightness > 0.94 ? 1.25 : 0.45 + random() * 0.5,
+          opacity: (0.28 + brightness * 0.54) * centerFade,
+          phase: random() * Math.PI * 2,
+          warm: random() > 0.9,
+        };
+      });
       const mask = document.createElement("canvas");
       mask.width = Math.round(width);
       mask.height = Math.round(height);
@@ -72,19 +93,75 @@ export default function AsciiSignature() {
       }
     };
 
+    const drawSky = (elapsed: number, color: string, warmColor: string) => {
+      for (const star of stars) {
+        // Nearby stars drift slightly faster; wrapping happens outside the viewport.
+        const drift = reducedMotion.matches ? 0 : elapsed / 1000 * (1.8 + star.radius * 2.8);
+        const x = (star.x + drift + 8) % (width + 16) - 8;
+        const y = (star.y + drift * 0.25 + 8) % (height + 16) - 8;
+        const shimmer = reducedMotion.matches ? 1 : 0.88 + Math.sin(elapsed / 2800 + star.phase) * 0.12;
+        const tint = star.warm ? warmColor : color;
+        const opacity = star.opacity * shimmer;
+        // The brightest stars have a small, soft halo around a crisp point.
+        if (star.radius > 1) {
+          const halo = context.createRadialGradient(x, y, 0, x, y, 4);
+          halo.addColorStop(0, `rgba(${tint}, ${opacity * 0.22})`);
+          halo.addColorStop(1, `rgba(${tint}, 0)`);
+          context.fillStyle = halo;
+          context.beginPath();
+          context.arc(x, y, 4, 0, Math.PI * 2);
+          context.fill();
+        }
+        context.fillStyle = `rgba(${tint}, ${opacity})`;
+        context.beginPath();
+        context.arc(x, y, star.radius, 0, Math.PI * 2);
+        context.fill();
+      }
+
+      if (reducedMotion.matches || elapsed < 9000) return;
+      // An occasional comet crosses the sky after the name has formed.
+      const cycle = Math.floor((elapsed - 9000) / 18000);
+      const progress = ((elapsed - 9000) % 18000) / 1400;
+      if (progress >= 1) return;
+      const direction = cycle % 2 === 0 ? 1 : -1;
+      const origin = direction === 1 ? 0.16 + (cycle % 3) * 0.12 : 0.82;
+      const travel = Math.min(width * 0.25, 320);
+      const x = width * origin + progress * travel * direction;
+      const y = height * (0.12 + (cycle % 3) * 0.07) + progress * travel * 0.45;
+      const tail = Math.min(110, width * 0.14) * Math.min(1, progress * 5);
+      const opacity = Math.sin(progress * Math.PI) * 0.5;
+      const tailX = x - tail * direction;
+      const tailY = y - tail * 0.45;
+      const trail = context.createLinearGradient(tailX, tailY, x, y);
+      trail.addColorStop(0, `rgba(${color}, 0)`);
+      trail.addColorStop(1, `rgba(${color}, ${opacity})`);
+      context.strokeStyle = trail;
+      context.lineWidth = 0.9;
+      context.beginPath();
+      context.moveTo(tailX, tailY);
+      context.lineTo(x, y);
+      context.stroke();
+      context.fillStyle = `rgba(${color}, ${opacity * 1.4})`;
+      context.beginPath();
+      context.arc(x, y, 0.9, 0, Math.PI * 2);
+      context.fill();
+    };
+
     const draw = (time: number) => {
       const elapsed = time - (startRef.current ?? time);
       if (!shouldAnimate || reducedMotion.matches || elapsed >= NAVIGATION_REVEAL_DELAY) {
         document.documentElement.dataset.introNavigationReady = "true";
       }
-      if (inView && time - lastTime >= 32) {
+      if (inView && !document.hidden && time - lastTime >= 32) {
         lastTime = time;
         const progress = !shouldAnimate || reducedMotion.matches ? 1 : Math.min(1, elapsed / REVEAL_DURATION);
         if (progress === 1 && background.dataset.settled !== "true") {
           background.dataset.settled = "true";
         }
         context.clearRect(0, 0, width, height);
-        context.fillStyle = getComputedStyle(canvas).color;
+        const style = getComputedStyle(canvas);
+        drawSky(elapsed, style.getPropertyValue("--sky-color").trim(), style.getPropertyValue("--sky-warm-color").trim());
+        context.fillStyle = style.color;
         context.font = `${width < 600 ? 3 : 6}px monospace`;
         for (const point of points) {
           // Every bit settles into its final position by exactly five seconds.
