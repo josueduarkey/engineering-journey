@@ -98,8 +98,6 @@ export default async function ProjectDetailPage({ params }: Props) {
         {c.back}
       </Link>
 
-      {project.coverImage && <div className="mt-6"><ProjectImageSlider key={slug} slug={slug} title={title} locale={locale} images={[{ src: project.coverImage, alt: project.title }]} /></div>}
-
       {/* Header */}
       <header className="mt-8 border-b border-(--border-color) pb-10">
         <div className="mb-5 flex flex-wrap gap-2">
@@ -150,6 +148,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           <ul className="mt-3 flex flex-wrap gap-2">{project.technologies.map((technology) => <li key={technology}><TechnologyChip name={technology} /></li>)}</ul>
         </section>
       </header>
+      {project.coverImage && <div className="mt-8"><ProjectImageSlider key={slug} slug={slug} title={title} locale={locale} images={[{ src: project.coverImage, alt: project.title }]} /></div>}
 
       {/* Body: MDX content + sidebar */}
       <div className="grid gap-12 py-12 lg:grid-cols-[1fr_260px]">

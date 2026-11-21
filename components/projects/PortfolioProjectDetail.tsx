@@ -17,7 +17,6 @@ export default function PortfolioProjectDetail({ project, projects, locale }: {
     <ViewTransition enter="project-enter" exit="project-exit">
       <article className="mx-auto max-w-[1152px] px-6 pb-12 pt-6 md:pb-20 md:pt-8">
         <Link href="/projects" transitionTypes={["project-back"]} className="inline-flex min-h-11 items-center gap-2 text-sm text-neutral-500"><ArrowLeft size={16} />{es ? "Todos los proyectos" : "All projects"}</Link>
-        {project.gallery.length > 0 && <div className="mt-6"><ProjectImageSlider key={project.slug} images={project.gallery} locale={locale} slug={project.slug} title={project.title[locale]} /></div>}
         <header className="mb-10 mt-8">
           <p className="editorial-label">{project.category[locale]}{project.company ? ` / ${project.company}` : ""}</p>
           <div className="project-title-row">
@@ -30,14 +29,19 @@ export default function PortfolioProjectDetail({ project, projects, locale }: {
           <p className="mt-6 max-w-3xl text-lg leading-8 text-neutral-600 dark:text-neutral-400">{project.summary[locale]}</p>
           {project.role && <p className="mt-4 text-sm text-neutral-500">{project.role[locale]} · {project.period?.[locale]}</p>}
         </header>
-        <section className="mb-10 border-t border-(--border-color) pt-8" aria-labelledby="project-contribution-title">
+        <div className={`project-content-grid${project.gallery.length > 0 ? " project-content-grid--gallery" : ""}`}>
+        <section className="min-w-0" aria-labelledby="project-contribution-title">
           <h2 id="project-contribution-title" className="text-2xl font-medium tracking-tight">{es ? "Lo que desarrollé y aporté" : "What I built and contributed"}</h2>
+          <ul className="mt-6 max-w-4xl space-y-4 text-sm leading-7 text-neutral-600 dark:text-neutral-400">{project.highlights[locale].map((highlight) => <li key={highlight} className="flex gap-4"><span aria-hidden="true" className="text-primary">↗</span><span>{highlight}</span></li>)}</ul>
           <section className="mt-6" aria-labelledby="project-technologies-title">
             <h3 id="project-technologies-title" className="editorial-label">{es ? "Tecnologías" : "Technologies"}</h3>
             <ul className="mt-3 flex flex-wrap gap-2">{project.technologies.map((technology) => <li key={technology}><TechnologyChip name={technology} /></li>)}</ul>
           </section>
-          <ul className="mt-6 max-w-4xl space-y-4 text-sm leading-7 text-neutral-600 dark:text-neutral-400">{project.highlights[locale].map((highlight) => <li key={highlight} className="flex gap-4"><span aria-hidden="true" className="text-primary">↗</span><span>{highlight}</span></li>)}</ul>
         </section>
+        {project.gallery.length > 0 && <div className="project-content-media">
+          <ProjectImageSlider key={project.slug} images={project.gallery} locale={locale} slug={project.slug} title={project.title[locale]} sizes="(min-width: 1152px) 585px, (min-width: 1024px) 52vw, calc(100vw - 48px)" />
+        </div>}
+        </div>
         <ProjectPager projects={projects} slug={project.slug} locale={locale} />
       </article>
     </ViewTransition>

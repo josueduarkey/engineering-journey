@@ -6,13 +6,15 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Locale } from "@/lib/content";
 import type { ProjectGalleryImage } from "@/lib/project-gallery";
 
-export default function ProjectImageSlider({ images, locale, slug, title }: {
+export default function ProjectImageSlider({ images, locale, slug, title, sizes = "(min-width: 948px) 900px, calc(100vw - 48px)" }: {
   images: ProjectGalleryImage[];
   locale: Locale;
   slug: string;
   title: string;
+  sizes?: string;
 }) {
   const [active, setActive] = useState(0);
+  const [aspectRatios, setAspectRatios] = useState<Record<string, number>>({});
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const es = locale === "es";
   const index = Math.min(active, Math.max(0, images.length - 1));
@@ -46,6 +48,7 @@ export default function ProjectImageSlider({ images, locale, slug, title }: {
       <ViewTransition name={`project-cover-${slug}`} share="project-morph">
         <div
           className="project-slider-viewport"
+          style={{ aspectRatio: aspectRatios[images[index].src] ?? 16 / 10 }}
           onTouchStart={(event) => { touchStart.current = { x: event.touches[0].clientX, y: event.touches[0].clientY }; }}
           onTouchEnd={onTouchEnd}
           onTouchCancel={() => { touchStart.current = null; }}
@@ -53,7 +56,12 @@ export default function ProjectImageSlider({ images, locale, slug, title }: {
           <div className="project-slider-track" style={{ transform: `translateX(-${index * 100}%)` }}>
             {images.map((capture, slide) => (
               <div key={capture.src} className="project-slider-slide" role="group" aria-roledescription={es ? "diapositiva" : "slide"} aria-label={`${slide + 1} ${es ? "de" : "of"} ${images.length}`} aria-hidden={slide !== index}>
-                <Image src={capture.src} alt={capture.alt[locale]} fill preload={slide === 0} loading={slide === 0 ? undefined : "eager"} sizes="(min-width: 1152px) 1104px, 95vw" className="object-contain" />
+                <Image src={capture.src} alt={capture.alt[locale]} fill preload={slide === 0} loading={slide === 0 ? undefined : "eager"} sizes={sizes} className="object-contain object-center" onLoad={({ currentTarget }) => {
+                  const ratio = currentTarget.naturalWidth / currentTarget.naturalHeight;
+                  if (Number.isFinite(ratio) && ratio > 0) {
+                    setAspectRatios((current) => current[capture.src] === ratio ? current : { ...current, [capture.src]: ratio });
+                  }
+                }} />
               </div>
             ))}
           </div>
